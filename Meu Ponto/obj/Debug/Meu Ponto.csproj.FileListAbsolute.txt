@@ -1,0 +1,26 @@
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\obj\Debug\App.g.cs
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\obj\Debug\MainPage.g.cs
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\obj\Debug\Meu Ponto.g.resources
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\ApplicationIcon.png
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\Background.png
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\Meu Ponto.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\Meu Ponto.pdb
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\AppManifest.xaml
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\Meu_Ponto.xap
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\GalaSoft.MvvmLight.Extras.WP71.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\GalaSoft.MvvmLight.WP71.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\System.Windows.Interactivity.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\GalaSoft.MvvmLight.Extras.WP71.pdb
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\GalaSoft.MvvmLight.Extras.WP71.xml
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\GalaSoft.MvvmLight.WP71.pdb
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\GalaSoft.MvvmLight.WP71.xml
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\System.Windows.Interactivity.xml
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\obj\Debug\Meu Ponto.csprojResolveAssemblyReference.cache
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\obj\Debug\Meu Ponto.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\obj\Debug\Meu Ponto.pdb
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\obj\Debug\XapCacheFile.xml
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\Microsoft.Phone.Controls.Toolkit.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\Microsoft.Phone.Controls.dll
+C:\Users\Alberto\documents\visual studio 2012\Projects\Meu Ponto\Meu Ponto\Bin\Debug\Microsoft.Phone.Controls.xml
