@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -17,9 +18,19 @@ namespace Meu_Ponto.ViewModel
 
         public MainViewModel()
         {
-            Batidas = new ObservableCollection<Batida>();
-
             _context = new CacheContext();
+            
+            Batidas = new ObservableCollection<BatidaViewModel>();
+
+            foreach (var batida in _context.Batidas.Where(x => x.Horario.Date == DateTime.Now.Date))
+            {
+                Batidas.Add(new BatidaViewModel()
+                {
+                    Horario = batida.Horario,
+                    Id = batida.Id,
+                    NaturezaBatida = batida.NaturezaBatida
+                });
+            }
 
             var configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
 
@@ -37,29 +48,39 @@ namespace Meu_Ponto.ViewModel
                 else
                     dateTime = DateTime.Now;
 
-                var tipoBatida = Batidas.Count % 2 != 0 ? NaturezaEntrada.Saida : NaturezaEntrada.Entrada;
-
-                Batidas.Add(new Batida
+                var tipoBatida = Batidas.Count % 2 != 0 ? NaturezaBatida.Saida : NaturezaBatida.Entrada;
+                var batidaViewModel = new BatidaViewModel
                 {
-                    Horario = dateTime,
-                    NaturezaEntrada = tipoBatida
-                });
-
+                    Horario = dateTime, NaturezaBatida = tipoBatida
+                };
+                Batidas.Add(batidaViewModel);
+                
+                _context.Batidas.InsertOnSubmit(batidaViewModel);
+                _context.SubmitChanges();
+                
                 if (AtualizaHorasTrabalhadas)
                     RaiseChangedHorarioTrabalhado();
             });
 
-            RemoverBatida = new RelayCommand<Batida>(b => Batidas.Remove(b));
+            RemoverBatida = new RelayCommand<BatidaViewModel>(b =>
+            {
+                Batidas.Remove(b);
+                _context.Batidas.DeleteOnSubmit(b);
+                _context.SubmitChanges();
+            });
 
             Batidas.CollectionChanged += (sender, args) => RaisePropertyChanged("HorarioTrabalhado");
 
             if (IsInDesignModeStatic)
                 CreateFakeData();
+
+            if (AtualizaHorasTrabalhadas)
+                RaiseChangedHorarioTrabalhado();
         }
 
         public bool AtualizaHorasTrabalhadas
         {
-            get { return Batidas.Any() && Batidas.Last().NaturezaEntrada == NaturezaEntrada.Entrada; }
+            get { return Batidas.Any() && Batidas.Last().NaturezaBatida == NaturezaBatida.Entrada; }
         }
 
         public string Horario
@@ -107,7 +128,7 @@ namespace Meu_Ponto.ViewModel
                     var timeSpan = Batidas.Aggregate(TimeSpan.Zero, (tempo, batida) =>
                     {
                         var diff = DateTime.Now.Subtract(batida.Horario);
-                        return batida.NaturezaEntrada == NaturezaEntrada.Entrada ? tempo + diff : tempo - diff;
+                        return batida.NaturezaBatida == NaturezaBatida.Entrada ? tempo + diff : tempo - diff;
                     });
                     return timeSpan.ToString(@"hh\:mm\:ss"); //string.Format("{0:hh:mm:ss}", timeSpan);
                 }
@@ -117,23 +138,23 @@ namespace Meu_Ponto.ViewModel
             }
         }
 
-        public ObservableCollection<Batida> Batidas { get; set; }
+        public ObservableCollection<BatidaViewModel> Batidas { get; set; }
 
         public RelayCommand AdicionarBatida { get; set; }
 
-        public RelayCommand<Batida> RemoverBatida { get; set; }
+        public RelayCommand<BatidaViewModel> RemoverBatida { get; set; }
 
         private void CreateFakeData()
         {
-            Batidas.Add(new Batida
+            Batidas.Add(new BatidaViewModel
             {
                 Horario = DateTime.Now,
-                NaturezaEntrada = NaturezaEntrada.Entrada
+                NaturezaBatida = NaturezaBatida.Entrada
             });
-            Batidas.Add(new Batida
+            Batidas.Add(new BatidaViewModel
             {
                 Horario = DateTime.Now.AddHours(1),
-                NaturezaEntrada = NaturezaEntrada.Saida
+                NaturezaBatida = NaturezaBatida.Saida
             });
         }
 

@@ -81,11 +81,12 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Batida.cs" />
     <Compile Include="Models\Configuracao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\Batida.cs" />
+    <Compile Include="ViewModel\BatidaViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\NaturezaEntrada.cs" />
+    <Compile Include="ViewModel\NaturezaBatida.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>

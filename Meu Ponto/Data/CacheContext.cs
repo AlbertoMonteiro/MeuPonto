@@ -1,6 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Linq;
 using Meu_Ponto.Models;
-using System.Data.Linq;
 
 namespace Meu_Ponto.Data
 {
@@ -24,6 +23,11 @@ namespace Meu_Ponto.Data
         public Table<Configuracao> Configuracoes
         {
             get { return GetTable<Configuracao>(); }
+        }
+
+        public Table<Batida> Batidas
+        {
+            get { return GetTable<Batida>(); }
         }
     }
 

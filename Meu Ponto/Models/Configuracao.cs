@@ -11,5 +11,11 @@ namespace Meu_Ponto.Models
 
         [Column(DbType = "NVARCHAR(10)")]
         public TimeSpan HorarioDeTrabalhoDiario { get; set; }
+
+        [Column(DbType = "NVARCHAR(10)")]
+        public TimeSpan QuantidadeDeHorasDeAlmoco { get; set; }
+
+        [Column]
+        public int MinutosDeDiferenca { get; set; }
     }
 }
