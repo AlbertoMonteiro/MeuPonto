@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Meu_Ponto.Data;
+using Meu_Ponto.Models;
 using Microsoft.Phone.Reactive;
 
 namespace Meu_Ponto.ViewModel
@@ -10,15 +12,23 @@ namespace Meu_Ponto.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private string _horario;
+        private TimeSpan _horarioDeTrabalhoDiario;
+        private readonly CacheContext _context;
 
         public MainViewModel()
         {
             Batidas = new ObservableCollection<Batida>();
 
+            _context = new CacheContext();
+
+            var configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
+
+            HorarioDeTrabalhoDiario = configuracao.HorarioDeTrabalhoDiario;
+
             AdicionarBatida = new RelayCommand(() =>
             {
                 DateTime dateTime;
-                
+
                 if (!string.IsNullOrWhiteSpace(Horario))
                 {
                     var timeSpan = TimeSpan.Parse(Horario);
@@ -27,14 +37,14 @@ namespace Meu_Ponto.ViewModel
                 else
                     dateTime = DateTime.Now;
 
-                var tipoBatida = Batidas.Count%2 != 0 ? NaturezaEntrada.Saida : NaturezaEntrada.Entrada;
+                var tipoBatida = Batidas.Count % 2 != 0 ? NaturezaEntrada.Saida : NaturezaEntrada.Entrada;
 
                 Batidas.Add(new Batida
                 {
                     Horario = dateTime,
                     NaturezaEntrada = tipoBatida
                 });
-                
+
                 if (AtualizaHorasTrabalhadas)
                     RaiseChangedHorarioTrabalhado();
             });
@@ -59,6 +69,26 @@ namespace Meu_Ponto.ViewModel
             {
                 _horario = value;
                 RaisePropertyChanged("Horarios");
+            }
+        }
+
+        public TimeSpan HorarioDeTrabalhoDiario
+        {
+            get { return _horarioDeTrabalhoDiario; }
+            set
+            {
+                _horarioDeTrabalhoDiario = value;
+                RaisePropertyChanged("HorarioDeTrabalhoDiario");
+                
+                if (_context.Configuracoes.Any())
+                    _context.Configuracoes.First().HorarioDeTrabalhoDiario = value;
+                else
+                {
+                    var configuracao = new Configuracao {HorarioDeTrabalhoDiario = value};
+                    _context.Configuracoes.InsertOnSubmit(configuracao);
+                }
+                
+                _context.SubmitChanges();
             }
         }
 

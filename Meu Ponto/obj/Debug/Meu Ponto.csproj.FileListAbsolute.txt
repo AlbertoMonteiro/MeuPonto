@@ -49,3 +49,4 @@ D:\Projetos\MeuPonto\Meu Ponto\obj\Debug\Meu Ponto.g.resources
 D:\Projetos\MeuPonto\Meu Ponto\obj\Debug\Meu Ponto.dll
 D:\Projetos\MeuPonto\Meu Ponto\obj\Debug\Meu Ponto.pdb
 D:\Projetos\MeuPonto\Meu Ponto\obj\Debug\XapCacheFile.xml
+D:\Projetos\MeuPonto\Meu Ponto\obj\Debug\Meu Ponto.csprojResolveAssemblyReference.cache
