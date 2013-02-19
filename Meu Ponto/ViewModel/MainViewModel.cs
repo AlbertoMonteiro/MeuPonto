@@ -12,7 +12,7 @@ namespace Meu_Ponto.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private string _horario;
+        private DateTime? _horario;
         private TimeSpan _horarioDeTrabalhoDiario;
         private readonly CacheContext _context;
 
@@ -38,15 +38,7 @@ namespace Meu_Ponto.ViewModel
 
             AdicionarBatida = new RelayCommand(() =>
             {
-                DateTime dateTime;
-
-                if (!string.IsNullOrWhiteSpace(Horario))
-                {
-                    var timeSpan = TimeSpan.Parse(Horario);
-                    dateTime = DateTime.Today.Add(timeSpan);
-                }
-                else
-                    dateTime = DateTime.Now;
+                DateTime dateTime = Horario.HasValue ? Horario.Value : DateTime.Now;
 
                 var tipoBatida = Batidas.Count % 2 != 0 ? NaturezaBatida.Saida : NaturezaBatida.Entrada;
                 var batidaViewModel = new BatidaViewModel
@@ -54,18 +46,24 @@ namespace Meu_Ponto.ViewModel
                     Horario = dateTime, NaturezaBatida = tipoBatida
                 };
                 Batidas.Add(batidaViewModel);
-                
-                _context.Batidas.InsertOnSubmit(batidaViewModel);
+
+                Batida batida = batidaViewModel;
+
+                _context.Batidas.InsertOnSubmit(batida);
                 _context.SubmitChanges();
+
+                batidaViewModel.Id = batida.Id;
                 
                 if (AtualizaHorasTrabalhadas)
                     RaiseChangedHorarioTrabalhado();
             });
 
-            RemoverBatida = new RelayCommand<BatidaViewModel>(b =>
+            RemoverBatida = new RelayCommand<BatidaViewModel>(batidaViewModel =>
             {
-                Batidas.Remove(b);
-                _context.Batidas.DeleteOnSubmit(b);
+                Batidas.Remove(batidaViewModel);
+
+                var batida = _context.Batidas.Single(b => b.Id == batidaViewModel.Id);
+                _context.Batidas.DeleteOnSubmit(batida);
                 _context.SubmitChanges();
             });
 
@@ -83,7 +81,7 @@ namespace Meu_Ponto.ViewModel
             get { return Batidas.Any() && Batidas.Last().NaturezaBatida == NaturezaBatida.Entrada; }
         }
 
-        public string Horario
+        public DateTime? Horario
         {
             get { return _horario; }
             set

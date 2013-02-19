@@ -9,7 +9,7 @@ namespace Meu_Ponto.Models
         [Column(IsPrimaryKey = true)]
         public int Id { get; set; }
 
-        [Column(DbType = "NVARCHAR(10)")]
+        [Column(DbType = "NVARCHAR(10)", IsVersion = true, UpdateCheck = UpdateCheck.Never)]
         public TimeSpan HorarioDeTrabalhoDiario { get; set; }
 
         [Column(DbType = "NVARCHAR(10)")]

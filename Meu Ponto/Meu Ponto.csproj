@@ -19,7 +19,7 @@
     <SupportedCultures>pt-BR</SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>Meu_Ponto.xap</XapFilename>
+    <XapFilename>Meu Ponto.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
     <SilverlightAppEntry>Meu_Ponto.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>

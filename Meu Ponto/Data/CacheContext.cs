@@ -1,5 +1,7 @@
 ﻿using System.Data.Linq;
+using System.Linq;
 using Meu_Ponto.Models;
+using Microsoft.Phone.Data.Linq;
 
 namespace Meu_Ponto.Data
 {
@@ -8,16 +10,17 @@ namespace Meu_Ponto.Data
         public CacheContext(string connectionString = "Data Source=isostore:/CacheDB.sdf")
             : base(connectionString)
         {
-            //if (this.ChangeConflicts.Any())
-            {
+            //if (ChangeConflicts.Any())
                 //DeleteDatabase();
-            }
+            
             if (!DatabaseExists())
-            {
-                
                 CreateDatabase();
-            }
+            
             DeferredLoadingEnabled = true;
+            /*var dbUpdater = this.CreateDatabaseSchemaUpdater();
+            dbUpdater.DatabaseSchemaVersion = 2;
+            dbUpdater.Execute();*/
+
         }
 
         public Table<Configuracao> Configuracoes
