@@ -14,15 +14,16 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
-	<phone:PhoneApplicationPage.Resources>
-		<Converters:TimespanToNullableDatetime x:Key="NullableDatetimeToTimespan"/>
-		<DataTemplate x:Key="ButtonExcluir">
-			<Grid>
-				<Image Source="/Toolkit.Content/ApplicationBar.Delete.png" Stretch="None"  />
-			</Grid>
-		</DataTemplate>
-	</phone:PhoneApplicationPage.Resources>
-	<phone:PhoneApplicationPage.FontFamily>
+    <phone:PhoneApplicationPage.Resources>
+        <Converters:StringToInt x:Key="StringToInt"/>
+        <Converters:TimespanToNullableDatetime x:Key="NullableDatetimeToTimespan"/>
+        <DataTemplate x:Key="ButtonExcluir">
+            <Grid>
+                <Image Source="/Toolkit.Content/ApplicationBar.Delete.png" Stretch="None"  />
+            </Grid>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+    <phone:PhoneApplicationPage.FontFamily>
 		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
 	</phone:PhoneApplicationPage.FontFamily>
 	<phone:PhoneApplicationPage.FontSize>
@@ -98,9 +99,12 @@
 		</controls:PanoramaItem>
 		<controls:PanoramaItem x:Name="piConfig" Header="configuração">
 			<StackPanel>
-				<TextBlock Text="Horario de trabalho diário:"/>
+				<TextBlock Text="Horario de trabalho diário:" Margin="10,0,0,0"/>
 				<toolkit:TimePicker Value="{Binding HorarioDeTrabalhoDiario, Converter={StaticResource NullableDatetimeToTimespan}, Mode=TwoWay}"/>
-				<TextBlock Text="{Binding HorarioDeTrabalhoDiario}"/>
+				<TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Diferença do relogio(minutos):" Margin="10,0,0,0"/>
+				<TextBox x:Name="textBox" Height="72" TextWrapping="Wrap" Text="{Binding DiferencaEntreRelogioECelular, Converter={StaticResource StringToInt}, Mode=TwoWay}" InputScope="Number"/>
+				<TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="Tempo de almoço:" Margin="10,0,0,0"/>
+				<TextBox x:Name="textBox1" Height="72" TextWrapping="Wrap" Text="{Binding TempoDoAlmoco, Converter={StaticResource StringToInt}, Mode=TwoWay}" InputScope="Number"/>
 			</StackPanel>
 		</controls:PanoramaItem></controls:Panorama>
     

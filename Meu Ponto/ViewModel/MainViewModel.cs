@@ -15,6 +15,8 @@ namespace Meu_Ponto.ViewModel
         private DateTime? _horario;
         private TimeSpan _horarioDeTrabalhoDiario;
         private readonly CacheContext _context;
+        private int _diferencaEntreRelogioECelular;
+        private int _tempoDoAlmoco;
 
         public MainViewModel()
         {
@@ -107,6 +109,46 @@ namespace Meu_Ponto.ViewModel
                     _context.Configuracoes.InsertOnSubmit(configuracao);
                 }
                 
+                _context.SubmitChanges();
+            }
+        }
+
+        public int TempoDoAlmoco
+        {
+            get { return _tempoDoAlmoco; }
+            set
+            {
+                _tempoDoAlmoco = value;
+                RaisePropertyChanged("TempoDoAlmoco");
+
+                if (_context.Configuracoes.Any())
+                    _context.Configuracoes.First().TempoDoAlmoco = value;
+                else
+                {
+                    var configuracao = new Configuracao { TempoDoAlmoco = value };
+                    _context.Configuracoes.InsertOnSubmit(configuracao);
+                }
+
+                _context.SubmitChanges();
+            }
+        }
+
+        public int DiferencaEntreRelogioECelular
+        {
+            get { return _diferencaEntreRelogioECelular; }
+            set
+            {
+                _diferencaEntreRelogioECelular = value;
+                RaisePropertyChanged("DiferencaEntreRelogioECelular");
+
+                if (_context.Configuracoes.Any())
+                    _context.Configuracoes.First().DiferencaEntreRelogioECelular = value;
+                else
+                {
+                    var configuracao = new Configuracao { DiferencaEntreRelogioECelular = value };
+                    _context.Configuracoes.InsertOnSubmit(configuracao);
+                }
+
                 _context.SubmitChanges();
             }
         }
