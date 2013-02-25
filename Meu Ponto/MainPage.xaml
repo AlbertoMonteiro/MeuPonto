@@ -7,39 +7,28 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    xmlns:Command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP71"
-    xmlns:Converters="clr-namespace:Meu_Ponto.Converters" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" 
+    xmlns:command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP71"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" 
+    xmlns:System="clr-namespace:System;assembly=mscorlib" 
     x:Class="Meu_Ponto.MainPage"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
-
-    <phone:PhoneApplicationPage.Resources>
-        <Converters:StringToInt x:Key="StringToInt"/>
-        <Converters:TimespanToNullableDatetime x:Key="NullableDatetimeToTimespan"/>
-        <DataTemplate x:Key="ButtonExcluir">
-            <Grid>
-                <Image Source="/Toolkit.Content/ApplicationBar.Delete.png" Stretch="None"  />
-            </Grid>
-        </DataTemplate>
-    </phone:PhoneApplicationPage.Resources>
-    <phone:PhoneApplicationPage.FontFamily>
-		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
-	</phone:PhoneApplicationPage.FontFamily>
-	<phone:PhoneApplicationPage.FontSize>
-		<StaticResource ResourceKey="PhoneFontSizeNormal"/>
-	</phone:PhoneApplicationPage.FontSize>
-	<phone:PhoneApplicationPage.Foreground>
-		<StaticResource ResourceKey="PhoneForegroundBrush"/>
-	</phone:PhoneApplicationPage.Foreground>
+	<phone:PhoneApplicationPage.Resources>
+		<DataTemplate x:Key="PiHojeHeaderTemplate">
+			<Grid>
+				<Image Width="100" Source="Calendario.png" HorizontalAlignment="Left"/>
+				<TextBlock Text="hoje" Margin="100,0,0,0"/>
+				<TextBlock HorizontalAlignment="Left" Width="66" FontSize="48" TextAlignment="Center" FontWeight="Bold" FontFamily="Segoe WP Semibold" Text="{Binding DiaHoje}" VerticalAlignment="Top" Margin="17,26,0,0" Height="55"/>
+			</Grid>
+		</DataTemplate>
+	</phone:PhoneApplicationPage.Resources>	
 	<phone:PhoneApplicationPage.DataContext>
 		<Binding Path="MainViewModel" Source="{StaticResource Locator}"/>
-	</phone:PhoneApplicationPage.DataContext>
-<!--LayoutRoot is the root grid where all page content is placed-->
+	</phone:PhoneApplicationPage.DataContext>	
 	<controls:Panorama>
-		<controls:PanoramaItem x:Name="piHoje" Header="hoje">
-			<Grid x:Name="LayoutRoot" Background="Transparent">
-				<Grid x:Name="ContentPanel" Grid.Row="1">
+		<controls:PanoramaItem x:Name="PiHoje" Header="{Binding .}" HeaderTemplate="{StaticResource PiHojeHeaderTemplate}">
+			<Grid x:Name="LayoutRoot" Background="Transparent">			
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="17*"/>
 						<ColumnDefinition Width="18*"/>
@@ -55,56 +44,31 @@
 					<Button Content="Registrar" Grid.Row="1" Grid.Column="1">
 						<i:Interaction.Triggers>
 							<i:EventTrigger EventName="Click">
-								<Command:EventToCommand Command="{Binding AdicionarBatida}" />
+								<command:EventToCommand Command="{Binding AdicionarBatida}" />
 							</i:EventTrigger>
 						</i:Interaction.Triggers>
 					</Button>
-					<StackPanel Grid.Row="3" Grid.ColumnSpan="2">
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="180"/>
-								<ColumnDefinition Width="120"/>
-								<ColumnDefinition Width="120"/>
-							</Grid.ColumnDefinitions>
-							<TextBlock Text="Horário" VerticalAlignment="Center" FontWeight="Bold"/>
-							<TextBlock Text="Natureza" Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold"/>
-							<TextBlock Text="Ações" Grid.Column="2" HorizontalAlignment="Center" FontWeight="Bold"/>
-						</Grid>
-						<ListBox x:Name="lbBatidas" ItemsSource="{Binding Batidas}">
-							<ListBox.ItemTemplate>
-								<DataTemplate>
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="180"/>
-											<ColumnDefinition Width="120"/>
-											<ColumnDefinition Width="120"/>
-										</Grid.ColumnDefinitions>
-										<TextBlock Text="{Binding Horario, StringFormat=\{0:dd/MM/yyyy HH:mm:ss\}}" VerticalAlignment="Center"/>
-										<TextBlock TextWrapping="Wrap" Text="{Binding NaturezaBatida}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-										<Button Content="Excluir" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" ContentTemplate="{StaticResource ButtonExcluir}">
-											<i:Interaction.Triggers>
-												<i:EventTrigger EventName="Click">
-													<Command:EventToCommand Command="{Binding DataContext.RemoverBatida, ElementName=lbBatidas}" CommandParameter="{Binding}" PassEventArgsToCommand="False" />
-												</i:EventTrigger>
-											</i:Interaction.Triggers>
-										</Button>
-									</Grid>
-								</DataTemplate>
-							</ListBox.ItemTemplate>
-						</ListBox>
-					</StackPanel>
-					<TextBlock TextWrapping="Wrap" Text="{Binding HorarioTrabalhado, StringFormat=Horário trabalhado: \{0\}}" FontSize="48" TextAlignment="Center" FontWeight="Bold" Grid.Row="2" Grid.ColumnSpan="2"/>
-				</Grid>
+					<ListBox x:Name="LbBatidas" ItemsSource="{Binding Batidas}" Height="Auto" Grid.Row="3" Grid.ColumnSpan="2">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal" Height="72">
+									<Image Source="{Binding Natureza}" Width="72"/>									
+									<TextBlock Text="{Binding Horario, StringFormat=\{0:HH:mm:ss\}}" VerticalAlignment="Center" FontSize="48" Margin="10,0,0,0"/>
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<TextBlock TextWrapping="Wrap" Text="{Binding HorarioTrabalhado, StringFormat=Horário trabalhado: \{0\}}" FontSize="42.667" FontWeight="Bold" Grid.Row="2" Grid.ColumnSpan="2" TextAlignment="Center"/>				
 			</Grid>
 		</controls:PanoramaItem>
-		<controls:PanoramaItem x:Name="piConfig" Header="configuração">
+		<controls:PanoramaItem x:Name="PiConfig" Header="configuração">
 			<StackPanel>
 				<TextBlock Text="Horario de trabalho diário:" Margin="10,0,0,0"/>
 				<toolkit:TimePicker Value="{Binding HorarioDeTrabalhoDiario, Converter={StaticResource NullableDatetimeToTimespan}, Mode=TwoWay}"/>
-				<TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Diferença do relogio(minutos):" Margin="10,0,0,0"/>
-				<TextBox x:Name="textBox" Height="72" TextWrapping="Wrap" Text="{Binding DiferencaEntreRelogioECelular, Converter={StaticResource StringToInt}, Mode=TwoWay}" InputScope="Number"/>
-				<TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="Tempo de almoço:" Margin="10,0,0,0"/>
-				<TextBox x:Name="textBox1" Height="72" TextWrapping="Wrap" Text="{Binding TempoDoAlmoco, Converter={StaticResource StringToInt}, Mode=TwoWay}" InputScope="Number"/>
+				<TextBlock TextWrapping="Wrap" Text="Diferença do relogio(minutos):" Margin="10,0,0,0"/>
+				<TextBox Height="72" TextWrapping="Wrap" Text="{Binding DiferencaEntreRelogioECelular, Converter={StaticResource StringToInt}, Mode=TwoWay}" InputScope="Number"/>
+				<TextBlock TextWrapping="Wrap" Text="Tempo de almoço:" Margin="10,0,0,0"/>
+				<TextBox Height="72" TextWrapping="Wrap" Text="{Binding TempoDoAlmoco, Converter={StaticResource StringToInt}, Mode=TwoWay}" InputScope="Number"/>
 			</StackPanel>
 		</controls:PanoramaItem></controls:Panorama>
     

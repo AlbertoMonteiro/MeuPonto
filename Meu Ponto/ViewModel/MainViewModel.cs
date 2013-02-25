@@ -17,26 +17,30 @@ namespace Meu_Ponto.ViewModel
         private readonly CacheContext _context;
         private int _diferencaEntreRelogioECelular;
         private int _tempoDoAlmoco;
+        private int _diaHoje;
 
         public MainViewModel()
         {
+            _diaHoje = DateTime.Now.Day;
+
             _context = new CacheContext();
             
             Batidas = new ObservableCollection<BatidaViewModel>();
 
-            foreach (var batida in _context.Batidas.Where(x => x.Horario.Date == DateTime.Now.Date))
-            {
-                Batidas.Add(new BatidaViewModel()
-                {
-                    Horario = batida.Horario,
-                    Id = batida.Id,
-                    NaturezaBatida = batida.NaturezaBatida
-                });
-            }
+            //if (_context != null && _context.Batidas != null)
+            //    foreach (var batida in _context.Batidas.Where(x => x.Horario.Date == DateTime.Now.Date))
+            //    {
+            //        Batidas.Add(new BatidaViewModel()
+            //        {
+            //            Horario = batida.Horario,
+            //            Id = batida.Id,
+            //            Natureza = batida.Natureza
+            //        });
+            //    }
 
-            var configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
+            //var configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
 
-            HorarioDeTrabalhoDiario = configuracao.HorarioDeTrabalhoDiario;
+            //HorarioDeTrabalhoDiario = configuracao.HorarioDeTrabalhoDiario;
 
             AdicionarBatida = new RelayCommand(() =>
             {
@@ -45,7 +49,7 @@ namespace Meu_Ponto.ViewModel
                 var tipoBatida = Batidas.Count % 2 != 0 ? NaturezaBatida.Saida : NaturezaBatida.Entrada;
                 var batidaViewModel = new BatidaViewModel
                 {
-                    Horario = dateTime, NaturezaBatida = tipoBatida
+                    Horario = dateTime, Natureza = tipoBatida
                 };
                 Batidas.Add(batidaViewModel);
 
@@ -71,7 +75,7 @@ namespace Meu_Ponto.ViewModel
 
             Batidas.CollectionChanged += (sender, args) => RaisePropertyChanged("HorarioTrabalhado");
 
-            if (IsInDesignModeStatic)
+            //if (IsInDesignModeStatic)
                 CreateFakeData();
 
             if (AtualizaHorasTrabalhadas)
@@ -80,7 +84,7 @@ namespace Meu_Ponto.ViewModel
 
         public bool AtualizaHorasTrabalhadas
         {
-            get { return Batidas.Any() && Batidas.Last().NaturezaBatida == NaturezaBatida.Entrada; }
+            get { return Batidas.Any() && Batidas.Last().Natureza == NaturezaBatida.Entrada; }
         }
 
         public DateTime? Horario
@@ -168,7 +172,7 @@ namespace Meu_Ponto.ViewModel
                     var timeSpan = Batidas.Aggregate(TimeSpan.Zero, (tempo, batida) =>
                     {
                         var diff = DateTime.Now.Subtract(batida.Horario);
-                        return batida.NaturezaBatida == NaturezaBatida.Entrada ? tempo + diff : tempo - diff;
+                        return batida.Natureza == NaturezaBatida.Entrada ? tempo + diff : tempo - diff;
                     });
                     return timeSpan.ToString(@"hh\:mm\:ss"); //string.Format("{0:hh:mm:ss}", timeSpan);
                 }
@@ -176,6 +180,11 @@ namespace Meu_Ponto.ViewModel
                     RaisePropertyChanged("HorarioTrabalhado");
                 return "00:00:00";
             }
+        }
+
+        public int DiaHoje
+        {
+            get { return _diaHoje; }
         }
 
         public ObservableCollection<BatidaViewModel> Batidas { get; set; }
@@ -189,12 +198,12 @@ namespace Meu_Ponto.ViewModel
             Batidas.Add(new BatidaViewModel
             {
                 Horario = DateTime.Now,
-                NaturezaBatida = NaturezaBatida.Entrada
+                Natureza = NaturezaBatida.Entrada
             });
             Batidas.Add(new BatidaViewModel
             {
                 Horario = DateTime.Now.AddHours(1),
-                NaturezaBatida = NaturezaBatida.Saida
+                Natureza = NaturezaBatida.Saida
             });
         }
 

@@ -24,6 +24,8 @@
     <SilverlightAppEntry>Meu_Ponto.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.30816.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,6 +78,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\NaturezaBatidaConverter.cs" />
+    <Compile Include="Converters\StringToInt.cs" />
     <Compile Include="Converters\TimespanToNullableDatetime.cs" />
     <Compile Include="Data\CacheContext.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -111,6 +115,8 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Imagens\Entrada.png" />
+    <Content Include="Imagens\Saida.png" />
     <Content Include="MVVMLight.Nuget.Readme.txt" />
     <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />
@@ -119,7 +125,9 @@
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Calendario.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

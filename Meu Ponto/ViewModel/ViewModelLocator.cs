@@ -14,6 +14,7 @@
 
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using System;
 
 namespace Meu_Ponto.ViewModel
 {
@@ -30,7 +31,6 @@ namespace Meu_Ponto.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
         }
 
