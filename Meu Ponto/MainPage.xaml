@@ -9,7 +9,6 @@
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP71"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" 
-    xmlns:System="clr-namespace:System;assembly=mscorlib" 
     x:Class="Meu_Ponto.MainPage"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     SupportedOrientations="Portrait" Orientation="Portrait"
@@ -52,7 +51,7 @@
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal" Height="72">
-									<Image Source="{Binding Natureza}" Width="72"/>									
+									<Image Source="{Binding Path=Natureza, Converter={StaticResource NaturezaBatidaConverter}}" Width="72"/>									
 									<TextBlock Text="{Binding Horario, StringFormat=\{0:HH:mm:ss\}}" VerticalAlignment="Center" FontSize="48" Margin="10,0,0,0"/>
 								</StackPanel>
 							</DataTemplate>

@@ -17,69 +17,67 @@ namespace Meu_Ponto.ViewModel
         private readonly CacheContext _context;
         private int _diferencaEntreRelogioECelular;
         private int _tempoDoAlmoco;
-        private int _diaHoje;
+        private readonly int _diaHoje;
 
         public MainViewModel()
         {
-            _diaHoje = DateTime.Now.Day;
-
-            _context = new CacheContext();
-            
             Batidas = new ObservableCollection<BatidaViewModel>();
 
-            //if (_context != null && _context.Batidas != null)
-            //    foreach (var batida in _context.Batidas.Where(x => x.Horario.Date == DateTime.Now.Date))
-            //    {
-            //        Batidas.Add(new BatidaViewModel()
-            //        {
-            //            Horario = batida.Horario,
-            //            Id = batida.Id,
-            //            Natureza = batida.Natureza
-            //        });
-            //    }
-
-            //var configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
-
-            //HorarioDeTrabalhoDiario = configuracao.HorarioDeTrabalhoDiario;
-
-            AdicionarBatida = new RelayCommand(() =>
+            if (IsInDesignModeStatic)
+                CreateFakeData();
+            else
             {
-                DateTime dateTime = Horario.HasValue ? Horario.Value : DateTime.Now;
+                _diaHoje = DateTime.Now.Day;
 
-                var tipoBatida = Batidas.Count % 2 != 0 ? NaturezaBatida.Saida : NaturezaBatida.Entrada;
-                var batidaViewModel = new BatidaViewModel
+                _context = new CacheContext();
+
+                if (_context != null && _context.Batidas != null)
+                    foreach (var batida in _context.Batidas.Where(x => x.Horario.Date == DateTime.Now.Date))
+                        Batidas.Add(new BatidaViewModel(batida.Id, batida.Horario, batida.NaturezaBatida));
+
+                var configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
+
+                HorarioDeTrabalhoDiario = configuracao.HorarioDeTrabalhoDiario;
+                DiferencaEntreRelogioECelular = configuracao.DiferencaEntreRelogioECelular;
+                TempoDoAlmoco = configuracao.TempoDoAlmoco;
+
+                AdicionarBatida = new RelayCommand(() =>
                 {
-                    Horario = dateTime, Natureza = tipoBatida
-                };
-                Batidas.Add(batidaViewModel);
+                    var dateTime = Horario.HasValue ? Horario.Value : DateTime.Now;
 
-                Batida batida = batidaViewModel;
+                    var tipoBatida = Batidas.Count % 2 != 0 ? NaturezaBatida.Saida : NaturezaBatida.Entrada;
+                    var batidaViewModel = new BatidaViewModel
+                    {
+                        Horario = dateTime,
+                        Natureza = tipoBatida
+                    };
+                    Batidas.Add(batidaViewModel);
 
-                _context.Batidas.InsertOnSubmit(batida);
-                _context.SubmitChanges();
+                    Batida batida = batidaViewModel;
 
-                batidaViewModel.Id = batida.Id;
-                
+                    _context.Batidas.InsertOnSubmit(batida);
+                    _context.SubmitChanges();
+
+                    batidaViewModel.Id = batida.Id;
+
+                    if (AtualizaHorasTrabalhadas)
+                        RaiseChangedHorarioTrabalhado();
+                });
+
+                RemoverBatida = new RelayCommand<BatidaViewModel>(batidaViewModel =>
+                {
+                    Batidas.Remove(batidaViewModel);
+
+                    var batida = _context.Batidas.Single(b => b.Id == batidaViewModel.Id);
+                    _context.Batidas.DeleteOnSubmit(batida);
+                    _context.SubmitChanges();
+                });
+
+                Batidas.CollectionChanged += (sender, args) => RaisePropertyChanged("HorarioTrabalhado");
+
                 if (AtualizaHorasTrabalhadas)
                     RaiseChangedHorarioTrabalhado();
-            });
-
-            RemoverBatida = new RelayCommand<BatidaViewModel>(batidaViewModel =>
-            {
-                Batidas.Remove(batidaViewModel);
-
-                var batida = _context.Batidas.Single(b => b.Id == batidaViewModel.Id);
-                _context.Batidas.DeleteOnSubmit(batida);
-                _context.SubmitChanges();
-            });
-
-            Batidas.CollectionChanged += (sender, args) => RaisePropertyChanged("HorarioTrabalhado");
-
-            //if (IsInDesignModeStatic)
-                CreateFakeData();
-
-            if (AtualizaHorasTrabalhadas)
-                RaiseChangedHorarioTrabalhado();
+            }
         }
 
         public bool AtualizaHorasTrabalhadas
@@ -104,15 +102,15 @@ namespace Meu_Ponto.ViewModel
             {
                 _horarioDeTrabalhoDiario = value;
                 RaisePropertyChanged("HorarioDeTrabalhoDiario");
-                
+
                 if (_context.Configuracoes.Any())
                     _context.Configuracoes.First().HorarioDeTrabalhoDiario = value;
                 else
                 {
-                    var configuracao = new Configuracao {HorarioDeTrabalhoDiario = value};
+                    var configuracao = new Configuracao { HorarioDeTrabalhoDiario = value };
                     _context.Configuracoes.InsertOnSubmit(configuracao);
                 }
-                
+
                 _context.SubmitChanges();
             }
         }
@@ -165,7 +163,7 @@ namespace Meu_Ponto.ViewModel
                 {
                     var batida = Batidas.First();
                     var diferenca = DateTime.Now.Subtract(batida.Horario);
-                    return diferenca.ToString(@"hh\:mm\:ss"); //string.Format("{0:hh:mm:ss}", diferenca);
+                    return diferenca.ToString(@"hh\:mm\:ss");
                 }
                 if (Batidas.Count > 1)
                 {
@@ -174,7 +172,7 @@ namespace Meu_Ponto.ViewModel
                         var diff = DateTime.Now.Subtract(batida.Horario);
                         return batida.Natureza == NaturezaBatida.Entrada ? tempo + diff : tempo - diff;
                     });
-                    return timeSpan.ToString(@"hh\:mm\:ss"); //string.Format("{0:hh:mm:ss}", timeSpan);
+                    return timeSpan.ToString(@"hh\:mm\:ss");
                 }
                 if (AtualizaHorasTrabalhadas)
                     RaisePropertyChanged("HorarioTrabalhado");
