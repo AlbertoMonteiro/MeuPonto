@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Linq.Mapping;
 using Meu_Ponto.ViewModel;
+using MeuPonto.Common;
 
 namespace Meu_Ponto.Models
 {

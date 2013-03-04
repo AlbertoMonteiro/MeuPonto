@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.Command;
 using Meu_Ponto.Data;
 using Meu_Ponto.Models;
 using Microsoft.Phone.Reactive;
+using MeuPonto.Common;
 
 namespace Meu_Ponto.ViewModel
 {

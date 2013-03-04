@@ -1,15 +1,13 @@
 using System;
-using System.Windows.Media.Imaging;
-using Meu_Ponto.Models;
 using MeuPonto.Common;
+using MeuPontoWP7.Models;
 
-namespace Meu_Ponto.ViewModel
+namespace MeuPontoWP7.ViewModel
 {
     public class BatidaViewModel
     {
         public BatidaViewModel()
         {
-            
         }
 
         public BatidaViewModel(int id, DateTime horario, NaturezaBatida naturezaBatida)
@@ -27,11 +25,11 @@ namespace Meu_Ponto.ViewModel
         public static implicit operator Batida(BatidaViewModel batida)
         {
             return new Batida
-            {
-                Id = batida.Id,
-                Horario = batida.Horario,
-                NaturezaBatida = batida.Natureza
-            };
+                {
+                    Id = batida.Id,
+                    Horario = batida.Horario,
+                    NaturezaBatida = batida.Natureza
+                };
         }
     }
 }

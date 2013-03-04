@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Meu_Ponto.Converters
+namespace MeuPonto.Common.Converters
 {
     public class StringToInt : IValueConverter
     {
@@ -10,7 +10,8 @@ namespace Meu_Ponto.Converters
         {
             var str = value.ToString();
 
-            var val = int.Parse(str);
+            var val = 0;
+            int.TryParse(str, out val);
             return val; 
         }
 

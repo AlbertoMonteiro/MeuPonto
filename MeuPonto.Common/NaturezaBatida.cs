@@ -1,8 +1,8 @@
-namespace Meu_Ponto.ViewModel
+namespace MeuPonto.Common
 {
     public enum NaturezaBatida
     {
         Entrada,
-        Saida
+        Saida,
     }
 }
