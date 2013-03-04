@@ -1,12 +1,18 @@
+#if DEBUG
+#define DEBUG_AGENT
+#endif
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MeuPonto.Common;
 using MeuPontoWP7.Models;
 using MeuPontoWP7.Repositorios;
+using MeuPontoWP7.ScheduledActions;
 using Microsoft.Phone.Reactive;
+using Microsoft.Phone.Scheduler;
 
 namespace MeuPontoWP7.ViewModel
 {
@@ -23,7 +29,6 @@ namespace MeuPontoWP7.ViewModel
         public MainViewModel(IContextProvider repositorio)
         {
             _context = repositorio.CacheContext;
-            //_repositorio = repositorio;
             Batidas = new ObservableCollection<BatidaViewModel>();
 
             if (IsInDesignMode)
@@ -37,51 +42,77 @@ namespace MeuPontoWP7.ViewModel
             {
                 // Code runs "for real"
 
+                _context.Batidas
+                    .Where(x => x.Horario.Date == DateTime.Now.Date)
+                    .ToList()
+                    .ForEach(batida => Batidas.Add(new BatidaViewModel(batida.Id, batida.Horario, batida.NaturezaBatida)));
+
                 CarregaConfiguracao();
 
-                AdicionarBatida = new RelayCommand(() =>
+                AdicionarBatida = new RelayCommand(AddBatida);
+                RemoverBatida = new RelayCommand<BatidaViewModel>(RemoveBatida);
+                Batidas.CollectionChanged += (sender, args) =>
                     {
-                        var dateTime = Horario.HasValue ? Horario.Value : DateTime.Now;
+                        RaiseChangedHorarioTrabalhado();
+                        RegisterTasks();
+                    };
 
-                        var tipoBatida = (NaturezaBatida)(Batidas.Count % 2);
-                        var batidaViewModel = new BatidaViewModel
-                            {
-                                Horario = dateTime,
-                                Natureza = tipoBatida
-                            };
-                        Batidas.Add(batidaViewModel);
+                RegisterTasks();
 
-                        Batida batida = batidaViewModel;
-
-                        _context.Batidas.InsertOnSubmit(batida);
-                        _context.SubmitChanges();
-
-                        batidaViewModel.Id = batida.Id;
-
-                        if (AtualizaHorasTrabalhadas)
-                            RaiseChangedHorarioTrabalhado();
-                    });
-
-                RemoverBatida = new RelayCommand<BatidaViewModel>(batidaViewModel =>
-                    {
-                        if (batidaViewModel != null)
-                        {
-                            Batidas.Remove(batidaViewModel);
-                            var batida = _context.Batidas.Single(b => b.Id == batidaViewModel.Id);
-                            _context.Batidas.DeleteOnSubmit(batida);
-                            _context.SubmitChanges();
-                        }
-                    });
-
-                Batidas.CollectionChanged += (sender, args) => RaiseChangedHorarioTrabalhado();
+                if (AtualizaHorasTrabalhadas)
+                    RaiseChangedHorarioTrabalhado();
             }
+        }
+
+        private void RegisterTasks()
+        {
+            var actionScheduler = new ActionScheduler(Batidas.Select(model => (Batida)model), _configuracao);
+            actionScheduler.Analize();
+            actionScheduler.Schedule();
+        }
+
+        private void RemoveBatida(BatidaViewModel batidaViewModel)
+        {
+            if (batidaViewModel != null)
+            {
+                Batidas.Remove(batidaViewModel);
+                var batida = _context.Batidas.Single(b => b.Id == batidaViewModel.Id);
+                _context.Batidas.DeleteOnSubmit(batida);
+                _context.SubmitChanges();
+            }
+        }
+
+        private void AddBatida()
+        {
+            var dateTime = Horario.HasValue ? Horario.Value : DateTime.Now;
+
+            var tipoBatida = (NaturezaBatida)(Batidas.Count % 2);
+            var batidaViewModel = new BatidaViewModel
+                {
+                    Horario = dateTime,
+                    Natureza = tipoBatida
+                };
+            Batidas.Add(batidaViewModel);
+
+            Batida batida = batidaViewModel;
+
+            _context.Batidas.InsertOnSubmit(batida);
+            _context.SubmitChanges();
+
+            batidaViewModel.Id = batida.Id;
+
+            if (AtualizaHorasTrabalhadas)
+                RaiseChangedHorarioTrabalhado();
         }
 
         private void CarregaConfiguracao()
         {
             _configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
-            _context.Configuracoes.InsertOnSubmit(_configuracao);
-            _context.SubmitChanges();
+            if (_configuracao.Id == 0)
+            {
+                _context.Configuracoes.InsertOnSubmit(_configuracao);
+                _context.SubmitChanges();
+            }
 
             DiferencaPonto = _configuracao.MinutosDeDiferenca;
             TempoDiario = _configuracao.HorarioDeTrabalhoDiario;

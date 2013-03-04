@@ -90,13 +90,13 @@
         <controls:PanoramaItem x:Name="PnIConfig" Header="configuração">
             <StackPanel>
             	<TextBlock TextWrapping="Wrap" Text="Tempo diario"/>
-            	<toolkit:TimePicker Style="{StaticResource TimePickerBlack}" Value="{Binding TempoDiario, Converter={StaticResource TimespanToNullableDatetime}}"/>
+            	<toolkit:TimePicker Style="{StaticResource TimePickerBlack}" Value="{Binding TempoDiario, Converter={StaticResource TimespanToNullableDatetime}, Mode=TwoWay}"/>
             	<TextBlock TextWrapping="Wrap" Text="Tempo de Intervalo(almoço)"/>
-            	<toolkit:TimePicker Style="{StaticResource TimePickerBlack}" Value="{Binding TempoIntervalo, Converter={StaticResource TimespanToNullableDatetime}}"/>
+            	<toolkit:TimePicker Style="{StaticResource TimePickerBlack}" Value="{Binding TempoIntervalo, Converter={StaticResource TimespanToNullableDatetime}, Mode=TwoWay}"/>
             	<TextBlock TextWrapping="Wrap" Text="Diferença entre o ponto(minutos)"/>
             	<TextBox Height="72" TextWrapping="Wrap" Text="{Binding DiferencaPonto, Converter={StaticResource StringToInt}, Mode=TwoWay}" InputScope="Number" Background="Black" Foreground="White" BorderBrush="{x:Null}" BorderThickness="0"/>
             	<TextBlock TextWrapping="Wrap" Text="Turno máximo"/>
-            	<toolkit:TimePicker Style="{StaticResource TimePickerBlack}"/>
+            	<toolkit:TimePicker Style="{StaticResource TimePickerBlack}" Value="{Binding TurnoMaximo, Converter={StaticResource TimespanToNullableDatetime}, Mode=TwoWay}"/>
             </StackPanel>
         </controls:PanoramaItem>
     </controls:Panorama>

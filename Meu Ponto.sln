@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeuPonto.Common", "MeuPonto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeuPontoWP7", "MeuPontoWP7\MeuPontoWP7.csproj", "{C81E9117-03DE-459A-B9C3-1D5186FAE225}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeuPontoWP7.Schedule", "MeuPontoWP7.Schedule\MeuPontoWP7.Schedule.csproj", "{B6E14DFA-1F10-461D-A3EC-7649FEF84B5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,14 @@ Global
 		{C81E9117-03DE-459A-B9C3-1D5186FAE225}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{C81E9117-03DE-459A-B9C3-1D5186FAE225}.Release|ARM.ActiveCfg = Release|Any CPU
 		{C81E9117-03DE-459A-B9C3-1D5186FAE225}.Release|x86.ActiveCfg = Release|Any CPU
+		{B6E14DFA-1F10-461D-A3EC-7649FEF84B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6E14DFA-1F10-461D-A3EC-7649FEF84B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6E14DFA-1F10-461D-A3EC-7649FEF84B5E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B6E14DFA-1F10-461D-A3EC-7649FEF84B5E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B6E14DFA-1F10-461D-A3EC-7649FEF84B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6E14DFA-1F10-461D-A3EC-7649FEF84B5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6E14DFA-1F10-461D-A3EC-7649FEF84B5E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B6E14DFA-1F10-461D-A3EC-7649FEF84B5E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

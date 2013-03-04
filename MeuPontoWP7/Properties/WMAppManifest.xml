@@ -7,7 +7,10 @@
       <Capability Name="ID_CAP_NETWORKING" />
     </Capabilities>
     <Tasks>
-      <DefaultTask Name ="_default" NavigationPage="MainPage.xaml"/>
+      <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
+      <ExtendedTask Name="BackgroundTask">
+        <BackgroundServiceAgent Specifier="ScheduledTaskAgent" Name="MeuPontoWP7.Schedule" Source="MeuPontoWP7.Schedule" Type="MeuPontoWP7.Schedule.ScheduledAgent" />
+      </ExtendedTask>
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="Meu_PontoToken" TaskName="_default">

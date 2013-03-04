@@ -89,6 +89,7 @@
     <Compile Include="Repositorios\CacheContext.cs" />
     <Compile Include="Repositorios\ContextProvider.cs" />
     <Compile Include="Repositorios\IContextProvider.cs" />
+    <Compile Include="ScheduledActions\ActionScheduler.cs" />
     <Compile Include="ViewModel\BatidaViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

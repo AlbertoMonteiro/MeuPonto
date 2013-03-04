@@ -6,7 +6,7 @@ namespace MeuPontoWP7.Models
     [Table]
     public class Configuracao
     {
-        [Column(IsPrimaryKey = true)]
+        [Column(IsPrimaryKey = true, IsDbGenerated = true)]
         public int Id { get; set; }
 
         [Column(DbType = "NVARCHAR(10)")]

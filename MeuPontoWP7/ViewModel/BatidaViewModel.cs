@@ -14,12 +14,11 @@ namespace MeuPontoWP7.ViewModel
         {
             Id = id;
             Horario = horario;
-            NaturezaBatida = naturezaBatida;
+            Natureza = naturezaBatida;
         }
 
         public int Id { get; set; }
         public DateTime Horario { get; set; }
-        public NaturezaBatida NaturezaBatida { get; set; }
         public NaturezaBatida Natureza { get; set; }
 
         public static implicit operator Batida(BatidaViewModel batida)
