@@ -1,10 +1,3 @@
-#if DEBUG
-#define DEBUG_AGENT
-#endif
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MeuPonto.Common;
@@ -12,7 +5,9 @@ using MeuPontoWP7.Models;
 using MeuPontoWP7.Repositorios;
 using MeuPontoWP7.ScheduledActions;
 using Microsoft.Phone.Reactive;
-using Microsoft.Phone.Scheduler;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MeuPontoWP7.ViewModel
 {
@@ -52,12 +47,10 @@ namespace MeuPontoWP7.ViewModel
                 AdicionarBatida = new RelayCommand(AddBatida);
                 RemoverBatida = new RelayCommand<BatidaViewModel>(RemoveBatida);
                 Batidas.CollectionChanged += (sender, args) =>
-                    {
-                        RaiseChangedHorarioTrabalhado();
-                        RegisterTasks();
-                    };
-
-                RegisterTasks();
+                {
+                    RaiseChangedHorarioTrabalhado();
+                    RegisterTasks();
+                };
 
                 if (AtualizaHorasTrabalhadas)
                     RaiseChangedHorarioTrabalhado();

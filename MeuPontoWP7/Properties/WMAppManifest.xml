@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{4642eec9-9aec-4435-b961-6941cc9bf10c}" Title="Meu Ponto" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Alberto Monteiro" Description="Controle seu ponto no trabalho" Publisher="Meu Ponto">
+  <App xmlns="" ProductID="{4642eec9-9aec-4435-b961-6941cc9bf10c}" Title="Meu Ponto" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Alberto Monteiro" Description="Controle seu ponto no trabalho" Publisher="Meu Ponto" BitsPerPixel="16">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_PUSH_NOTIFICATION" />
       <Capability Name="ID_CAP_NETWORKING" />
     </Capabilities>
     <Tasks>
-      <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
-      <ExtendedTask Name="BackgroundTask">
+      <DefaultTask Name="_default" NavigationPage="/Views/MainPage.xaml" />
+      <!--<ExtendedTask Name="BackgroundTask">
         <BackgroundServiceAgent Specifier="ScheduledTaskAgent" Name="MeuPontoWP7.Schedule" Source="MeuPontoWP7.Schedule" Type="MeuPontoWP7.Schedule.ScheduledAgent" />
-      </ExtendedTask>
+      </ExtendedTask>-->
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="Meu_PontoToken" TaskName="_default">

@@ -1,0 +1,22 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
+	<!-- Resource dictionary entries should be defined here. -->
+	<DataTemplate x:Key="BatidasTemplate">
+		<Border BorderThickness="1" BorderBrush="#CC000000" Padding="2" Margin="1">
+			<Grid x:Name="Entrada">
+				<Grid.Background>
+					<SolidColorBrush Color="{Binding Natureza, Converter={StaticResource NaturezaBatidaToColorConverter}}"/>
+				</Grid.Background>
+				<TextBlock Foreground="#FF000000" FontSize="48" FontFamily="Calibri" Text="{Binding Horario, StringFormat=HH:mm:ss}" HorizontalAlignment="Center" VerticalAlignment="Top">
+					<toolkit:ContextMenuService.ContextMenu>
+						<toolkit:ContextMenu VerticalOffset="10">
+							<toolkit:MenuItem Header="Remover" Command="{Binding DataContext.RemoverBatida, ElementName=LblBatidas}" CommandParameter="{Binding .}"/>
+						</toolkit:ContextMenu>
+					</toolkit:ContextMenuService.ContextMenu>
+				</TextBlock>
+				<Image Width="32" Source="{Binding Natureza, Converter={StaticResource NaturezaBatidaToImageConverter}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0" RenderTransformOrigin="0.5,0.5"/>
+			</Grid>
+		</Border>
+	</DataTemplate>
+</ResourceDictionary>

@@ -13,12 +13,22 @@
     <!--Application Resources-->
     <Application.Resources>
         <ResourceDictionary>
+        	<ResourceDictionary.MergedDictionaries>
+        		<ResourceDictionary Source="DataTemplates.xaml"/>
+        	</ResourceDictionary.MergedDictionaries>
             <Converters:NaturezaBatidaToImageConverter x:Key="NaturezaBatidaToImageConverter" />
             <Converters:NaturezaBatidaToColorConverter x:Key="NaturezaBatidaToColorConverter" />
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
             <Style x:Key="TimePickerBlack" TargetType="toolkit:TimePicker">
                 <Setter Property="Background" Value="Black" />
                 <Setter Property="Foreground" Value="White" />
+            </Style>
+            <Style x:Key="DatePickerBlack" TargetType="toolkit:DatePicker">
+                <Setter Property="Background" Value="Black" />
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+            <Style x:Key="StrechListBoxItem" TargetType="ListBoxItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

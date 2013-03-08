@@ -26,6 +26,7 @@ namespace MeuPontoWP7.ViewModel
             }
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<LancamentoViewModel>();
         }
 
         public MainViewModel Main
@@ -33,6 +34,14 @@ namespace MeuPontoWP7.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
+            }
+        }
+
+        public LancamentoViewModel Lancamento
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<LancamentoViewModel>();
             }
         }
         
