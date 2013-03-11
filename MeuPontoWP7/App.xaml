@@ -7,8 +7,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MeuPontoWP7.ViewModel"
-             xmlns:Converters="clr-namespace:MeuPonto.Common.Converters;assembly=MeuPonto.Common"
              xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+             xmlns:converters="clr-namespace:MeuPontoWP7.Converters"
              x:Class="MeuPontoWP7.App" mc:Ignorable="d">
     <!--Application Resources-->
     <Application.Resources>
@@ -16,8 +16,9 @@
         	<ResourceDictionary.MergedDictionaries>
         		<ResourceDictionary Source="DataTemplates.xaml"/>
         	</ResourceDictionary.MergedDictionaries>
-            <Converters:NaturezaBatidaToImageConverter x:Key="NaturezaBatidaToImageConverter" />
-            <Converters:NaturezaBatidaToColorConverter x:Key="NaturezaBatidaToColorConverter" />
+            <converters:NaturezaBatidaToImageConverter x:Key="NaturezaBatidaToImageConverter" />
+            <converters:NaturezaBatidaToColorConverter x:Key="NaturezaBatidaToColorConverter" />
+            <converters:BatidasToResumoConverter x:Key="BatidasToResumoConverter" />
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
             <Style x:Key="TimePickerBlack" TargetType="toolkit:TimePicker">
                 <Setter Property="Background" Value="Black" />

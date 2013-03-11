@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Windows.Media;
+using MeuPonto.Common;
 
-namespace MeuPonto.Common.Converters
+namespace MeuPontoWP7.Converters
 {
     public class NaturezaBatidaToImageConverter : IValueConverter
     {

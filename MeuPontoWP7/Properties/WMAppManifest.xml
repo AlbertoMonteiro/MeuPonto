@@ -8,9 +8,9 @@
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="/Views/MainPage.xaml" />
-      <!--<ExtendedTask Name="BackgroundTask">
+      <ExtendedTask Name="BackgroundTask">
         <BackgroundServiceAgent Specifier="ScheduledTaskAgent" Name="MeuPontoWP7.Schedule" Source="MeuPontoWP7.Schedule" Type="MeuPontoWP7.Schedule.ScheduledAgent" />
-      </ExtendedTask>-->
+      </ExtendedTask>
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="Meu_PontoToken" TaskName="_default">

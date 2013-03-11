@@ -1,8 +1,8 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MeuPonto.Common;
-using MeuPontoWP7.Models;
-using MeuPontoWP7.Repositorios;
+using MeuPonto.Common.Models;
+using MeuPonto.Common.Repositorios;
 using MeuPontoWP7.ScheduledActions;
 using Microsoft.Phone.Reactive;
 using System;
@@ -29,9 +29,10 @@ namespace MeuPontoWP7.ViewModel
             if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
-                Batidas.Add(new BatidaViewModel { Horario = DateTime.Now.AddHours(-3), Natureza = NaturezaBatida.Entrada });
-                Batidas.Add(new BatidaViewModel { Horario = DateTime.Now.AddHours(-2), Natureza = NaturezaBatida.Saida });
-                Batidas.Add(new BatidaViewModel { Horario = DateTime.Now.AddHours(-1), Natureza = NaturezaBatida.Entrada });
+                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012, 1, 1, 8, 0, 0), Natureza = NaturezaBatida.Entrada });
+                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012, 1, 1, 12, 0, 0), Natureza = NaturezaBatida.Saida });
+                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012, 1, 1, 13, 0, 0), Natureza = NaturezaBatida.Entrada });
+                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012, 1, 1, 18, 0, 0), Natureza = NaturezaBatida.Saida });
             }
             else
             {
@@ -55,62 +56,6 @@ namespace MeuPontoWP7.ViewModel
                 if (AtualizaHorasTrabalhadas)
                     RaiseChangedHorarioTrabalhado();
             }
-        }
-
-        private void RegisterTasks()
-        {
-            var actionScheduler = new ActionScheduler(Batidas.Select(model => (Batida)model), _configuracao);
-            actionScheduler.Analize();
-            actionScheduler.Schedule();
-        }
-
-        private void RemoveBatida(BatidaViewModel batidaViewModel)
-        {
-            if (batidaViewModel != null)
-            {
-                Batidas.Remove(batidaViewModel);
-                var batida = _context.Batidas.Single(b => b.Id == batidaViewModel.Id);
-                _context.Batidas.DeleteOnSubmit(batida);
-                _context.SubmitChanges();
-            }
-        }
-
-        private void AddBatida()
-        {
-            var dateTime = Horario.HasValue ? Horario.Value : DateTime.Now;
-
-            var tipoBatida = (NaturezaBatida)(Batidas.Count % 2);
-            var batidaViewModel = new BatidaViewModel
-                {
-                    Horario = dateTime,
-                    Natureza = tipoBatida
-                };
-            Batidas.Add(batidaViewModel);
-
-            Batida batida = batidaViewModel;
-
-            _context.Batidas.InsertOnSubmit(batida);
-            _context.SubmitChanges();
-
-            batidaViewModel.Id = batida.Id;
-
-            if (AtualizaHorasTrabalhadas)
-                RaiseChangedHorarioTrabalhado();
-        }
-
-        private void CarregaConfiguracao()
-        {
-            _configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
-            if (_configuracao.Id == 0)
-            {
-                _context.Configuracoes.InsertOnSubmit(_configuracao);
-                _context.SubmitChanges();
-            }
-
-            DiferencaPonto = _configuracao.MinutosDeDiferenca;
-            TempoDiario = _configuracao.HorarioDeTrabalhoDiario;
-            TempoIntervalo = _configuracao.QuantidadeDeHorasDeAlmoco;
-            TurnoMaximo = _configuracao.TurnoMaximo;
         }
 
         public ObservableCollection<BatidaViewModel> Batidas { get; set; }
@@ -223,6 +168,62 @@ namespace MeuPontoWP7.ViewModel
                         RaiseChangedHorarioTrabalhado();
                     }
                 }, TimeSpan.FromSeconds(1));
+        }
+
+        private void RegisterTasks()
+        {
+            var actionScheduler = new ActionScheduler(Batidas.Select(model => (Batida)model), _configuracao);
+            actionScheduler.Analize();
+            actionScheduler.Schedule();
+        }
+
+        private void RemoveBatida(BatidaViewModel batidaViewModel)
+        {
+            if (batidaViewModel != null)
+            {
+                Batidas.Remove(batidaViewModel);
+                var batida = _context.Batidas.Single(b => b.Id == batidaViewModel.Id);
+                _context.Batidas.DeleteOnSubmit(batida);
+                _context.SubmitChanges();
+            }
+        }
+
+        private void AddBatida()
+        {
+            var dateTime = Horario.HasValue ? Horario.Value : DateTime.Now;
+
+            var tipoBatida = (NaturezaBatida)(Batidas.Count % 2);
+            var batidaViewModel = new BatidaViewModel
+            {
+                Horario = dateTime,
+                Natureza = tipoBatida
+            };
+            Batidas.Add(batidaViewModel);
+
+            Batida batida = batidaViewModel;
+
+            _context.Batidas.InsertOnSubmit(batida);
+            _context.SubmitChanges();
+
+            batidaViewModel.Id = batida.Id;
+
+            if (AtualizaHorasTrabalhadas)
+                RaiseChangedHorarioTrabalhado();
+        }
+
+        private void CarregaConfiguracao()
+        {
+            _configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
+            if (_configuracao.Id == 0)
+            {
+                _context.Configuracoes.InsertOnSubmit(_configuracao);
+                _context.SubmitChanges();
+            }
+
+            DiferencaPonto = _configuracao.MinutosDeDiferenca;
+            TempoDiario = _configuracao.HorarioDeTrabalhoDiario;
+            TempoIntervalo = _configuracao.QuantidadeDeHorasDeAlmoco;
+            TurnoMaximo = _configuracao.TurnoMaximo;
         }
     }
 }

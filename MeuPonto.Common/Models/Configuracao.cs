@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Data.Linq.Mapping;
 
-namespace MeuPontoWP7.Models
+namespace MeuPonto.Common.Models
 {
     [Table]
     public class Configuracao

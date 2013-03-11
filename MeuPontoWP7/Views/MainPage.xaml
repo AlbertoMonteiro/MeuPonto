@@ -6,9 +6,8 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters="clr-namespace:MeuPonto.Common.Converters;assembly=MeuPonto.Common"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:local="clr-namespace:MeuPontoWP7"
+    xmlns:local="clr-namespace:MeuPontoWP7" xmlns:converters="clr-namespace:MeuPontoWP7.Converters"
     x:Class="MeuPontoWP7.Views.MainPage"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     SupportedOrientations="Portrait" Orientation="Portrait"
@@ -41,9 +40,9 @@
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.add.rest.png" IsEnabled="True"
                                             Text="Registrar" Click="ApplicationBarIconButton_OnClick" />
-            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.feature.search.rest.png" IsEnabled="False"
-                                            Text="relatorio" />
-            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.questionmark.rest.png" IsEnabled="False" Text="ajuda"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.feature.search.rest.png" IsEnabled="True"
+                                            Text="relatorio" Click="ApplicationBarIconButton_Click_2" />
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.questionmark.rest.png" IsEnabled="True" Text="ajuda" Click="ApplicationBarIconButton_Click_1"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     <phone:PhoneApplicationPage.DataContext>

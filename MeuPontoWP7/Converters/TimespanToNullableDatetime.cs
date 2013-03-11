@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace MeuPonto.Common.Converters
+namespace MeuPontoWP7.Converters
 {
     public class TimespanToNullableDatetime : IValueConverter
     {

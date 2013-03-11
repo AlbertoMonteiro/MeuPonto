@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Data.Linq.Mapping;
-using MeuPonto.Common;
 
-namespace MeuPontoWP7.Models
+namespace MeuPonto.Common.Models
 {
     [Table]
     public class Batida

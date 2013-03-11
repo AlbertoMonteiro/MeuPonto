@@ -80,12 +80,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Batida.cs" />
-    <Compile Include="Models\Configuracao.cs" />
+    <Compile Include="Converters\BatidasToResumoConverter.cs" />
+    <Compile Include="Converters\NaturezaBatidaConverter.cs" />
+    <Compile Include="Converters\StringToInt.cs" />
+    <Compile Include="Converters\TimespanToNullableDatetime.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositorios\CacheContext.cs" />
-    <Compile Include="Repositorios\ContextProvider.cs" />
-    <Compile Include="Repositorios\IContextProvider.cs" />
     <Compile Include="ScheduledActions\ActionScheduler.cs" />
     <Compile Include="ScheduledActions\Lembrete.cs" />
     <Compile Include="ScheduledActions\TipoLembrete.cs" />
@@ -93,14 +93,22 @@
       <DependentUpon>SpResumoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\BatidaViewModel.cs" />
+    <Compile Include="ViewModel\Group.cs" />
     <Compile Include="ViewModel\LancamentoViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\RelatorioViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\Lancamentos.xaml.cs">
       <DependentUpon>Lancamentos.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Relatorio.xaml.cs">
+      <DependentUpon>Relatorio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sobre.xaml.cs">
+      <DependentUpon>Sobre.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +131,14 @@
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Relatorio.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Sobre.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -147,7 +163,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="MVVMLight.Nuget.Readme.txt" />
-    <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
@@ -158,6 +173,10 @@
     <ProjectReference Include="..\MeuPonto.Common\MeuPonto.Common.csproj">
       <Project>{783275FF-DF41-42E4-9D46-E9C05A6CFAAC}</Project>
       <Name>MeuPonto.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MeuPontoWP7.Schedule\MeuPontoWP7.Schedule.csproj">
+      <Project>{B6E14DFA-1F10-461D-A3EC-7649FEF84B5E}</Project>
+      <Name>MeuPontoWP7.Schedule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

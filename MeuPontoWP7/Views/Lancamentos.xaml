@@ -13,6 +13,8 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True" Foreground="Black"
+    shell:SystemTray.BackgroundColor="White"
+    shell:SystemTray.ForegroundColor="Black"
     DataContext="{Binding Path=Lancamento, Source={StaticResource Locator}}">
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar>
@@ -21,7 +23,6 @@
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,8 +30,6 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="lançamentos" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" />
-
-        <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -42,20 +41,20 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <local:SpResumoControl Grid.Row="1" Grid.ColumnSpan="2" />
-            <ListBox x:Name="LblBatidas" Grid.Row="2" ItemTemplate="{StaticResource BatidasTemplate}"
-                     Grid.ColumnSpan="2" ItemsSource="{Binding Batidas}" ItemContainerStyle="{StaticResource StrechListBoxItem}"/>
-            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Dia"
-                       VerticalAlignment="Top" />
+            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" Text="Dia" VerticalAlignment="Top" />
             <toolkit:DatePicker VerticalAlignment="Top" Style="{StaticResource DatePickerBlack}" Margin="0,15,0,0"
                                 Value="{Binding Dia, Mode=TwoWay}" />
             <Canvas Grid.Column="1">
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Horário" VerticalAlignment="Top" />
+                <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" Text="Horário" VerticalAlignment="Top" />
                 <toolkit:TimePicker VerticalAlignment="Top" Style="{StaticResource TimePickerBlack}" Canvas.Top="15"
                                     Width="213" Value="{Binding Horario, Mode=TwoWay}" />
             </Canvas>
-            <TextBlock Grid.Row="3" TextWrapping="Wrap" Text="{Binding Resumo}" Grid.ColumnSpan="2" Margin="0,5"
-                       TextAlignment="Center" />
+            <local:SpResumoControl Grid.Row="1" Grid.ColumnSpan="2" Visibility="{Binding DiaSelecionado, Mode=OneWay}" />
+            <ListBox x:Name="LblBatidas" Grid.Row="2" ItemTemplate="{StaticResource BatidasTemplate}"
+                     Grid.ColumnSpan="2" ItemsSource="{Binding Batidas}"
+                     ItemContainerStyle="{StaticResource StrechListBoxItem}" />
+
+            <TextBlock Grid.Row="3" Text="{Binding Resumo}" Grid.ColumnSpan="2" Margin="0,5" TextAlignment="Center" />
         </Grid>
     </Grid>
 

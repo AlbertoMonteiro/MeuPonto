@@ -1,6 +1,6 @@
 using System;
 using MeuPonto.Common;
-using MeuPontoWP7.Models;
+using MeuPonto.Common.Models;
 
 namespace MeuPontoWP7.ViewModel
 {

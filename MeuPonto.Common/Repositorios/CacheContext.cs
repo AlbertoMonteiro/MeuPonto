@@ -1,7 +1,7 @@
-﻿using System.Data.Linq;
-using MeuPontoWP7.Models;
+using System.Data.Linq;
+using MeuPonto.Common.Models;
 
-namespace MeuPontoWP7.Repositorios
+namespace MeuPonto.Common.Repositorios
 {
     public class CacheContext : DataContext
     {
@@ -31,5 +31,4 @@ namespace MeuPontoWP7.Repositorios
             get { return GetTable<Batida>(); }
         }
     }
-
 }

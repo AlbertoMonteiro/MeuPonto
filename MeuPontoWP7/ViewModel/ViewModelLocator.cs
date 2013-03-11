@@ -1,6 +1,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using MeuPontoWP7.Repositorios;
+using MeuPonto.Common.Repositorios;
+using MeuPontoWP7.Converters;
 using Microsoft.Practices.ServiceLocation;
 
 namespace MeuPontoWP7.ViewModel
@@ -27,6 +28,8 @@ namespace MeuPontoWP7.ViewModel
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LancamentoViewModel>();
+            SimpleIoc.Default.Register<RelatorioViewModel>();
+            SimpleIoc.Default.Register<BatidasToResumoConverter>();
         }
 
         public MainViewModel Main
@@ -42,6 +45,22 @@ namespace MeuPontoWP7.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<LancamentoViewModel>();
+            }
+        }
+
+        public RelatorioViewModel Relatorio
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<RelatorioViewModel>();
+            }
+        }
+
+        public BatidasToResumoConverter BatidasToResumoConverter
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<BatidasToResumoConverter>();
             }
         }
         

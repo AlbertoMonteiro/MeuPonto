@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using MeuPonto.Common;
-using MeuPontoWP7.Models;
+using MeuPonto.Common.Models;
 using Microsoft.Phone.Scheduler;
 
 namespace MeuPontoWP7.ScheduledActions

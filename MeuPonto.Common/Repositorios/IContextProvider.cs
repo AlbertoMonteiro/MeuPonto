@@ -1,4 +1,4 @@
-﻿namespace MeuPontoWP7.Repositorios
+namespace MeuPonto.Common.Repositorios
 {
     public interface IContextProvider
     {

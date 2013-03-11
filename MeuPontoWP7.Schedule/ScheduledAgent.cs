@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using MeuPonto.Common.Repositorios;
+using Microsoft.Devices;
 using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
 
@@ -48,8 +52,19 @@ namespace MeuPontoWP7.Schedule
             //TODO: Add code to perform your task in background
             // Launch a toast to show that the agent is running.
             // The toast will not be shown if the foreground application is running.
-            var toast = new ShellToast {Title = "Meu Ponto", Content = task.Description};
-            toast.Show();
+            var cache = new CacheContext();
+            var batidasHoje = cache.Batidas.Where(b => b.Horario.Date == DateTime.Now.Date);
+
+            var shellTileData = new StandardTileData
+            {
+                BackContent = string.Join("\n", batidasHoje.Select(x => x.Horario.ToShortTimeString())), 
+                BackTitle = "Batidas hoje"
+            };
+
+
+            ShellTile appTile = ShellTile.ActiveTiles.First();
+
+            appTile.Update(shellTileData);
 
             // If debugging is enabled, launch the agent again in one minute.
 #if DEBUG_AGENT

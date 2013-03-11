@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace MeuPontoWP7.Repositorios
+namespace MeuPonto.Common.Repositorios
 {
     public class ContextProvider : IContextProvider, IDisposable
     {

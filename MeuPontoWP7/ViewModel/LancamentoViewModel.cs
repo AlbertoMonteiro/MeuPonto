@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MeuPonto.Common;
-using MeuPontoWP7.Models;
-using MeuPontoWP7.Repositorios;
+using MeuPonto.Common.Models;
+using MeuPonto.Common.Repositorios;
 using Microsoft.Phone.Reactive;
 
 namespace MeuPontoWP7.ViewModel
 {
     public class LancamentoViewModel : ViewModelBase
     {
-        private CacheContext _context;
+        private readonly CacheContext _context;
         private DateTime? _horario;
-        private Configuracao _configuracao;
+        private readonly Configuracao _configuracao;
         private DateTime? _dia;
 
         public LancamentoViewModel(IContextProvider repositorio)
@@ -27,7 +28,8 @@ namespace MeuPontoWP7.ViewModel
             if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
-                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012,1,1,8,0,0), Natureza = NaturezaBatida.Entrada });
+
+                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012, 1, 1, 8, 0, 0), Natureza = NaturezaBatida.Entrada });
                 Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012,1,1,12,0,0), Natureza = NaturezaBatida.Saida });
                 Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012,1,1,13,0,0), Natureza = NaturezaBatida.Entrada });
                 Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012,1,1,18,0,0), Natureza = NaturezaBatida.Saida });
@@ -35,11 +37,11 @@ namespace MeuPontoWP7.ViewModel
             else
             {
                 // Code runs "for real"
-
                 _configuracao = _context.Configuracoes.FirstOrDefault();
 
                 AdicionarBatida = new RelayCommand(AddBatida);
                 RemoverBatida = new RelayCommand<BatidaViewModel>(RemoveBatida);
+
                 Batidas.CollectionChanged += (sender, args) =>
                 {
                     RaisePropertyChanged("HorarioTrabalhado");
@@ -51,10 +53,13 @@ namespace MeuPontoWP7.ViewModel
         private void CarregaBatidas()
         {
             Batidas.Clear();
-            _context.Batidas
-                    .Where(x => x.Horario.Date == Dia.Value.Date)
-                    .ToList()
-                    .ForEach(batida => Batidas.Add(new BatidaViewModel(batida.Id, batida.Horario, batida.NaturezaBatida)));
+            if (_context != null)
+            {
+                _context.Batidas
+                        .Where(x => x.Horario.Date == Dia.Value.Date)
+                        .ToList()
+                        .ForEach(batida => Batidas.Add(new BatidaViewModel(batida.Id, batida.Horario, batida.NaturezaBatida)));
+            }
         }
 
         public ObservableCollection<BatidaViewModel> Batidas { get; set; }
@@ -113,6 +118,11 @@ namespace MeuPontoWP7.ViewModel
 
                 return diferenca.ToString(@"hh\:mm\:ss");
             }
+        }
+
+        public Visibility DiaSelecionado
+        {
+            get { return Dia.HasValue ? Visibility.Visible : Visibility.Collapsed; }
         }
 
         private TimeSpan HorarioRealizado
