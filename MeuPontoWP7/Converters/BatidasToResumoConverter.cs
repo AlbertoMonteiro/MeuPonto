@@ -10,22 +10,31 @@ namespace MeuPontoWP7.Converters
 {
     public class BatidasToResumoConverter : IValueConverter
     {
-        private static CacheContext _cacheContext = new CacheContext();
+        private static CacheContext _cacheContext;
+
+        public BatidasToResumoConverter()
+        {
+            _cacheContext = new CacheContext();
+        }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var batidaViewModels = (Group<BatidaViewModel>) value;
 
-            var configuracao = _cacheContext.Configuracoes.FirstOrDefault();
-
-            var diferenca = batidaViewModels.Resumo();
-
-            if (configuracao != null)
+            TimeSpan diferenca = TimeSpan.Zero;
+            if (_cacheContext != null)
             {
-                var timeSpan = diferenca - configuracao.HorarioDeTrabalhoDiario;
-                return timeSpan > TimeSpan.Zero 
-                    ? "Crédito de " + timeSpan.ToString(@"hh\:mm\:ss") 
-                    : "Débito de " + timeSpan.ToString(@"hh\:mm\:ss");
+                var configuracao = _cacheContext.Configuracoes.FirstOrDefault();
+
+                diferenca = batidaViewModels.Resumo();
+
+                if (configuracao != null)
+                {
+                    var timeSpan = diferenca - configuracao.HorarioDeTrabalhoDiario;
+                    return timeSpan > TimeSpan.Zero 
+                               ? "Crédito de " + timeSpan.ToString(@"hh\:mm\:ss") 
+                               : "Débito de " + timeSpan.ToString(@"hh\:mm\:ss");
+                }
             }
 
             return diferenca.ToString(@"hh\:mm\:ss");

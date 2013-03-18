@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="Converters\BatidasToResumoConverter.cs" />
     <Compile Include="Converters\NaturezaBatidaConverter.cs" />
+    <Compile Include="Converters\NaturezaBatidaToColorConverter.cs" />
     <Compile Include="Converters\StringToInt.cs" />
     <Compile Include="Converters\TimespanToNullableDatetime.cs" />
     <Compile Include="Extensions\Extensions.cs" />
@@ -180,12 +181,45 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\Pausa.png" />
+    <Resource Include="Images\Relogio.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BlendEmbeddedFont Include="Fonts\Moire-Bold.ttf">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <BlendEmbeddedFont Include="Fonts\Moire-Regular.ttf">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <BlendEmbeddedFont Include="Fonts\DS-DIGI.TTF">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <BlendEmbeddedFont Include="Fonts\DS-DIGIB.TTF">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <BlendEmbeddedFont Include="Fonts\DS-DIGII.TTF">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <BlendEmbeddedFont Include="Fonts\DS-DIGIT.TTF">
+      <IsSystemFont>True</IsSystemFont>
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <Resource Include="Images\RelogioPequeno.png" />
     <Content Include="Images\Entrada.png" />
-    <Content Include="Images\Pausa.png" />
     <Content Include="Images\Saida.png" />
-    <Content Include="Images\Calendario.png" />
-    <Content Include="Images\Shape 3.png" />
-    <Content Include="Images\Relogio.png" />
+    <Resource Include="Images\Calendario.png" />
+    <Resource Include="Images\RelogioLogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
@@ -197,4 +231,5 @@
   </Target>
   -->
   <ProjectExtensions />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\WindowsPhone\v8.0\Microsoft.Expression.Blend.WindowsPhone.targets" />
 </Project>

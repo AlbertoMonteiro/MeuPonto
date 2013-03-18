@@ -10,11 +10,10 @@
     x:Class="MeuPontoWP7.Views.Lancamentos"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True" Foreground="Black"
-    shell:SystemTray.BackgroundColor="White"
-    shell:SystemTray.ForegroundColor="Black"
+    shell:SystemTray.IsVisible="True"
     DataContext="{Binding Path=Lancamento, Source={StaticResource Locator}}">
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar>
@@ -23,13 +22,13 @@
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="lançamentos" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" />
+        <TextBlock Text="lançamentos" Style="{StaticResource PhoneTextTitle1Style}" />
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -42,13 +41,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" Text="Dia" VerticalAlignment="Top" />
-            <toolkit:DatePicker VerticalAlignment="Top" Style="{StaticResource DatePickerBlack}" Margin="0,15,0,0"
+            <toolkit:DatePicker VerticalAlignment="Top" Margin="0,15,0,0"
                                 Value="{Binding Dia, Mode=TwoWay}" />
-            <Canvas Grid.Column="1">
-                <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" Text="Horário" VerticalAlignment="Top" />
-                <toolkit:TimePicker VerticalAlignment="Top" Style="{StaticResource TimePickerBlack}" Canvas.Top="15"
-                                    Width="213" Value="{Binding Horario, Mode=TwoWay}" />
-            </Canvas>
+            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" Text="Horário" VerticalAlignment="Top" Grid.Column="1" />
+            <toolkit:TimePicker VerticalAlignment="Top" Value="{Binding Horario, Mode=TwoWay}" Grid.Column="1" Margin="0,15,15,0" />
             <local:SpResumoControl Grid.Row="1" Grid.ColumnSpan="2" Visibility="{Binding DiaSelecionado, Mode=OneWay}" />
             <ListBox x:Name="LblBatidas" Grid.Row="2" ItemTemplate="{StaticResource BatidasTemplate}"
                      Grid.ColumnSpan="2" ItemsSource="{Binding Batidas}"

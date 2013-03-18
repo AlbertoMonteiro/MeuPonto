@@ -1,14 +1,34 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
 	<!-- Resource dictionary entries should be defined here. -->
 	<DataTemplate x:Key="BatidasTemplate">
-		<Border BorderThickness="1" BorderBrush="#CC000000" Padding="2" Margin="1">
+		<Border BorderThickness="1" Padding="2" Margin="1" BorderBrush="Black" Width="207">
+		    <Grid>
+		    	<Grid.ColumnDefinitions>
+		    		<ColumnDefinition Width="Auto"/>
+		    		<ColumnDefinition Width="*"/>
+		    		<ColumnDefinition Width="Auto"/>
+		    	</Grid.ColumnDefinitions>
+		        <Grid.Background>
+					<SolidColorBrush Color="{Binding Natureza, Converter={StaticResource NaturezaBatidaToColorConverter}}"/>
+				</Grid.Background>
+			    <TextBlock FontFamily="Segoe UI" FontSize="30" Text="{Binding Horario, StringFormat=HH:mm:ss}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Margin="5,0" Stretch="None" Source="/MeuPontoWP7;component/Images/RelogioPequeno.png"/>
+                <Image Margin="5,0" Source="{Binding Natureza, Converter={StaticResource NaturezaBatidaToImageConverter}}" Stretch="None" />
+                <toolkit:ContextMenuService.ContextMenu>
+                    <toolkit:ContextMenu VerticalOffset="10">
+                        <toolkit:MenuItem Header="Remover" Command="{Binding DataContext.RemoverBatida, ElementName=LblBatidas}" CommandParameter="{Binding .}"/>
+                    </toolkit:ContextMenu>
+                </toolkit:ContextMenuService.ContextMenu>
+            </Grid>
+        </Border>
+		<!--<Border BorderThickness="1" Padding="2" Margin="1" BorderBrush="White">
 			<Grid x:Name="Entrada">
 				<Grid.Background>
 					<SolidColorBrush Color="{Binding Natureza, Converter={StaticResource NaturezaBatidaToColorConverter}}"/>
 				</Grid.Background>
-				<TextBlock Foreground="#FF000000" FontSize="48" FontFamily="Calibri" Text="{Binding Horario, StringFormat=HH:mm:ss}" HorizontalAlignment="Center" VerticalAlignment="Top">
+				<TextBlock FontSize="48" FontFamily="Calibri" Text="{Binding Horario, StringFormat=HH:mm:ss}" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="Black">
 					<toolkit:ContextMenuService.ContextMenu>
 						<toolkit:ContextMenu VerticalOffset="10">
 							<toolkit:MenuItem Header="Remover" Command="{Binding DataContext.RemoverBatida, ElementName=LblBatidas}" CommandParameter="{Binding .}"/>
@@ -17,6 +37,6 @@
 				</TextBlock>
 				<Image Width="32" Source="{Binding Natureza, Converter={StaticResource NaturezaBatidaToImageConverter}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0" RenderTransformOrigin="0.5,0.5"/>
 			</Grid>
-		</Border>
+		</Border>-->
 	</DataTemplate>
 </ResourceDictionary>

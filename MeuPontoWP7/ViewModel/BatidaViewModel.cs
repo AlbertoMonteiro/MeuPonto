@@ -17,6 +17,13 @@ namespace MeuPontoWP7.ViewModel
             Natureza = naturezaBatida;
         }
 
+        public BatidaViewModel(Batida batida)
+        {
+            Id = batida.Id;
+            Horario = batida.Horario;
+            Natureza = batida.NaturezaBatida;
+        }
+
         public int Id { get; set; }
         public DateTime Horario { get; set; }
         public NaturezaBatida Natureza { get; set; }

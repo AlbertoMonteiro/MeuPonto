@@ -6,11 +6,9 @@
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="108" d:DesignWidth="408" UseLayoutRounding="True">
     
     <Grid x:Name="LayoutRoot">
-    	<Image x:Name="ImgRelogio" Source="/Images/Relogio.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="68"/>
-    	<TextBlock x:Name="LblHorarioTrabalhado" Foreground="#FF000000" FontSize="42" FontFamily="Calibri" LineStackingStrategy="BlockLineHeight" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding HorarioTrabalhado, Mode=OneWay, StringFormat=Horário trabalhado \{0\}}" Margin="68,0,0,0"/>
+    	<TextBlock x:Name="LblHorarioTrabalhado" FontSize="72" FontFamily="/MeuPontoWP7;component/Fonts/Fonts.zip#DS-Digital" LineStackingStrategy="BlockLineHeight" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding HorarioTrabalhado, Mode=OneWay, StringFormat=\{0\}}" Foreground="#FF613682"/>
     </Grid>
 </UserControl>
