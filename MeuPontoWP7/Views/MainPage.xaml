@@ -11,8 +11,7 @@
     xmlns:converters="clr-namespace:MeuPontoWP7.Converters"
     x:Class="MeuPontoWP7.Views.MainPage"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
-    SupportedOrientations="Portrait"
-    shell:SystemTray.IsVisible="True">
+    SupportedOrientations="Portrait">
     <phone:PhoneApplicationPage.Resources>
         <converters:StringToInt x:Key="StringToInt" />
         <converters:TimespanToNullableDatetime x:Key="TimespanToNullableDatetime" />
@@ -46,13 +45,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-		<Border Height="80" BorderThickness="0,0,0,2" BorderBrush="#7F000000">
-    		<Grid Background="#FF2BA1D9">
-    			<Image HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Width="48" Source="/MeuPontoWP7;component/Images/RelogioLogo.png"/>
-    			<TextBlock FontFamily="/MeuPontoWP7;component/Fonts/Fonts.zip#Moire" FontSize="36" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="70,2,0,0" Text="meu ponto" Foreground="#3F000000"/>
-    			<TextBlock Foreground="#FFF7B604" FontFamily="/MeuPontoWP7;component/Fonts/Fonts.zip#Moire" FontSize="36" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="68,0,0,0" Text="meu ponto"/>			
-    		</Grid>
-    	</Border>
+    	<local:Top/>
     	<controls:Panorama Grid.Row="1" Background="White" Margin="0,5,0,0">
     		<!--Pivot item one-->
     		<controls:PanoramaItem x:Name="PniHoje" Header="{Binding DiaHoje, Mode=OneWay}"
@@ -65,14 +58,8 @@
     					<RowDefinition Height="Auto" />
     				</Grid.RowDefinitions>
     				<local:SpResumoControl />
-    				<ListBox x:Name="LblBatidas" Grid.Row="1" ItemsSource="{Binding Batidas}"                         
-    					ItemTemplate="{StaticResource BatidasTemplate}">
-    					<ListBox.ItemsPanel>
-    						<ItemsPanelTemplate>
-    							<toolkit:WrapPanel Orientation="Horizontal" />
-    						</ItemsPanelTemplate>
-    					</ListBox.ItemsPanel>                    
-    				</ListBox>
+                    <ListBox x:Name="LblBatidas" Grid.Row="1" ItemsSource="{Binding Batidas}"                         
+    					ItemTemplate="{StaticResource BatidasTemplate}" ItemsPanel="{StaticResource ListBoxWrapPanel}"/>
     				<StackPanel x:Name="SpLancamento" Grid.Row="2">
     					<TextBlock x:Name="LblHorario" FontSize="30" FontFamily="Calibri"
     						LineStackingStrategy="BlockLineHeight" LineHeight="30" TextAlignment="Left"
@@ -86,18 +73,18 @@
     			<StackPanel>
     				<TextBlock TextWrapping="Wrap" Text="Tempo diario" Foreground="Black" />
     				<toolkit:TimePicker
-    					Value="{Binding TempoDiario, Converter={StaticResource TimespanToNullableDatetime}, Mode=TwoWay}" Style="{StaticResource TimePickerBlack}" />
+    					Value="{Binding Configuracao.HorarioDeTrabalhoDiario, Converter={StaticResource TimespanToNullableDatetime}, Mode=TwoWay}" Style="{StaticResource TimePickerBlack}" />
     				<TextBlock TextWrapping="Wrap" Text="Tempo de Intervalo(almoço)" Foreground="Black" />
     				<toolkit:TimePicker
-    					Value="{Binding TempoIntervalo, Converter={StaticResource TimespanToNullableDatetime}, Mode=TwoWay}" Style="{StaticResource TimePickerBlack}" />
+    					Value="{Binding Configuracao.QuantidadeDeHorasDeAlmoco, Converter={StaticResource TimespanToNullableDatetime}, Mode=TwoWay}" Style="{StaticResource TimePickerBlack}" />
     				<TextBlock TextWrapping="Wrap" Text="Diferença entre o ponto(minutos)" Foreground="Black" />
     				<TextBox Height="72" TextWrapping="Wrap"
-    					Text="{Binding DiferencaPonto, Converter={StaticResource StringToInt}, Mode=TwoWay}"
+    					Text="{Binding Configuracao.MinutosDeDiferenca, Converter={StaticResource StringToInt}, Mode=TwoWay}"
     					InputScope="Number"
     					BorderThickness="0" Background="Black" Foreground="White" />
     				<TextBlock TextWrapping="Wrap" Text="Turno máximo" Foreground="Black" />
     				<toolkit:TimePicker
-    					Value="{Binding TurnoMaximo, Converter={StaticResource TimespanToNullableDatetime}, Mode=TwoWay}" Style="{StaticResource TimePickerBlack}" />
+    					Value="{Binding Configuracao.TurnoMaximo, Converter={StaticResource TimespanToNullableDatetime}}" Style="{StaticResource TimePickerBlack}" />
     			</StackPanel>
     		</controls:PanoramaItem>
     	</controls:Panorama>

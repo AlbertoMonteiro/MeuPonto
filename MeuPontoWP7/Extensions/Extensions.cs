@@ -1,5 +1,5 @@
 ﻿using MeuPonto.Common;
-using MeuPontoWP7.ViewModel;
+using MeuPonto.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ namespace MeuPontoWP7.Extensions
 {
     public static class Extensions
     {
-        public static TimeSpan Resumo(this IEnumerable<BatidaViewModel> batidas)
+        public static TimeSpan Resumo(this IEnumerable<Batida> batidas)
         {
             var diferenca = TimeSpan.Zero;
             var batidaViewModels = batidas.ToList();
@@ -16,15 +16,23 @@ namespace MeuPontoWP7.Extensions
             if (batidaViewModels.Count == 1)
             {
                 var batida = batidaViewModels.First();
-                var dia = batida.Horario.Date;
-                diferenca = dia.Subtract(batida.Horario);
+                if (batida.Horario.Date == DateTime.Now.Date)
+                {
+                    var dia = batida.Horario.Date;
+                    diferenca = DateTime.Now.Subtract(batida.Horario); 
+                }
+                else
+                {
+                    var dia = batida.Horario.Date;
+                    diferenca = dia.Subtract(batida.Horario);
+                }
             }
             if (batidaViewModels.Count > 1)
             {
                 diferenca = batidaViewModels.Aggregate(TimeSpan.Zero, (tempo, batida) =>
                 {
                     var diff = DateTime.Now.Subtract(batida.Horario);
-                    return batida.Natureza == NaturezaBatida.Entrada ? tempo + diff : tempo - diff;
+                    return batida.NaturezaBatida == NaturezaBatida.Entrada ? tempo + diff : tempo - diff;
                 });
             }
             return diferenca;

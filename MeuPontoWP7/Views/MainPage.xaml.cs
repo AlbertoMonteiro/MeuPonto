@@ -17,9 +17,7 @@ namespace MeuPontoWP7.Views
                 periodic.Description = "A";
 
                 if (ScheduledActionService.Find("Temp") != null)
-                {
                     ScheduledActionService.Remove("Temp");
-                }
                 ScheduledActionService.Add(periodic);
 
                 ScheduledActionService.LaunchForTest("Temp", TimeSpan.FromSeconds(30));

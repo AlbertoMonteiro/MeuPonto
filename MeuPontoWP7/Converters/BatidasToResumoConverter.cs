@@ -1,4 +1,5 @@
-﻿using MeuPonto.Common.Repositorios;
+﻿using MeuPonto.Common.Models;
+using MeuPonto.Common.Repositorios;
 using MeuPontoWP7.Extensions;
 using MeuPontoWP7.ViewModel;
 using System;
@@ -19,7 +20,7 @@ namespace MeuPontoWP7.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var batidaViewModels = (Group<BatidaViewModel>) value;
+            var batidaViewModels = (Group<Batida>) value;
 
             TimeSpan diferenca = TimeSpan.Zero;
             if (_cacheContext != null)

@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MeuPonto.Common;
 using MeuPonto.Common.Models;
 using MeuPonto.Common.Repositorios;
-using Microsoft.Phone.Reactive;
+using MeuPontoWP7.Extensions;
 
 namespace MeuPontoWP7.ViewModel
 {
@@ -19,20 +17,21 @@ namespace MeuPontoWP7.ViewModel
         private DateTime? _horario;
         private readonly Configuracao _configuracao;
         private DateTime? _dia;
+        private double _width;
 
         public LancamentoViewModel(IContextProvider repositorio)
         {
             _context = repositorio.CacheContext;
-            Batidas = new ObservableCollection<BatidaViewModel>();
+            Batidas = new ObservableCollection<Batida>();
 
             if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
 
-                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012, 1, 1, 8, 0, 0), Natureza = NaturezaBatida.Entrada });
-                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012,1,1,12,0,0), Natureza = NaturezaBatida.Saida });
-                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012,1,1,13,0,0), Natureza = NaturezaBatida.Entrada });
-                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012,1,1,18,0,0), Natureza = NaturezaBatida.Saida });
+                Batidas.Add(new Batida { Horario = new DateTime(2012, 1, 1, 08, 0, 0), NaturezaBatida = NaturezaBatida.Entrada });
+                Batidas.Add(new Batida { Horario = new DateTime(2012, 1, 1, 12, 0, 0), NaturezaBatida = NaturezaBatida.Saida });
+                Batidas.Add(new Batida { Horario = new DateTime(2012, 1, 1, 13, 0, 0), NaturezaBatida = NaturezaBatida.Entrada });
+                Batidas.Add(new Batida { Horario = new DateTime(2012, 1, 1, 18, 0, 0), NaturezaBatida = NaturezaBatida.Saida });
             }
             else
             {
@@ -40,7 +39,7 @@ namespace MeuPontoWP7.ViewModel
                 _configuracao = _context.Configuracoes.FirstOrDefault();
 
                 AdicionarBatida = new RelayCommand(AddBatida);
-                RemoverBatida = new RelayCommand<BatidaViewModel>(RemoveBatida);
+                RemoverBatida = new RelayCommand<Batida>(RemoveBatida);
 
                 Batidas.CollectionChanged += (sender, args) =>
                 {
@@ -58,11 +57,11 @@ namespace MeuPontoWP7.ViewModel
                 _context.Batidas
                         .Where(x => x.Horario.Date == Dia.Value.Date)
                         .ToList()
-                        .ForEach(batida => Batidas.Add(new BatidaViewModel(batida.Id, batida.Horario, batida.NaturezaBatida)));
+                        .ForEach(Batidas.Add);
             }
         }
 
-        public ObservableCollection<BatidaViewModel> Batidas { get; set; }
+        public ObservableCollection<Batida> Batidas { get; set; }
 
         public DateTime? Dia
         {
@@ -89,7 +88,7 @@ namespace MeuPontoWP7.ViewModel
         {
             get
             {
-                var horarioRealizado = HorarioRealizado;
+                var horarioRealizado = Batidas.Resumo();
                 string format;
 
                 if (_configuracao.HorarioDeTrabalhoDiario < horarioRealizado)
@@ -107,14 +106,14 @@ namespace MeuPontoWP7.ViewModel
 
         public bool AtualizaHorasTrabalhadas
         {
-            get { return Batidas.Any() && Batidas.Last().Natureza == NaturezaBatida.Entrada; }
+            get { return Batidas.Any() && Batidas.Last().NaturezaBatida == NaturezaBatida.Entrada; }
         }
 
         public string HorarioTrabalhado
         {
             get
             {
-                var diferenca = HorarioRealizado;
+                var diferenca = Batidas.Resumo();
 
                 return diferenca.ToString(@"hh\:mm\:ss");
             }
@@ -125,33 +124,11 @@ namespace MeuPontoWP7.ViewModel
             get { return Dia.HasValue ? Visibility.Visible : Visibility.Collapsed; }
         }
 
-        private TimeSpan HorarioRealizado
-        {
-            get
-            {
-                var diferenca = TimeSpan.Zero;
-                if (Batidas.Count == 1)
-                {
-                    var batida = Batidas.First();
-                    diferenca = Dia.Value.Subtract(batida.Horario);
-                }
-                if (Batidas.Count > 1)
-                {
-                    diferenca = Batidas.Aggregate(TimeSpan.Zero, (tempo, batida) =>
-                    {
-                        var diff = DateTime.Now.Subtract(batida.Horario);
-                        return batida.Natureza == NaturezaBatida.Entrada ? tempo + diff : tempo - diff;
-                    });
-                }
-                return diferenca;
-            }
-        }
-
         public RelayCommand AdicionarBatida { get; set; }
 
-        public RelayCommand<BatidaViewModel> RemoverBatida { get; set; }
+        public RelayCommand<Batida> RemoverBatida { get; set; }
 
-        private void RemoveBatida(BatidaViewModel batidaViewModel)
+        private void RemoveBatida(Batida batidaViewModel)
         {
             if (batidaViewModel != null)
             {
@@ -165,19 +142,17 @@ namespace MeuPontoWP7.ViewModel
         private void AddBatida()
         {
             var tipoBatida = (NaturezaBatida)(Batidas.Count % 2);
-            var batidaViewModel = new BatidaViewModel
+            var batida = new Batida
             {
                 Horario = Dia.Value.Date.Add(Horario.Value.TimeOfDay),
-                Natureza = tipoBatida
+                NaturezaBatida = tipoBatida
             };
-            Batidas.Add(batidaViewModel);
-
-            Batida batida = batidaViewModel;
+            Batidas.Add(batida);
 
             _context.Batidas.InsertOnSubmit(batida);
             _context.SubmitChanges();
 
-            batidaViewModel.Id = batida.Id;
+            batida.Id = batida.Id;
 
             if (AtualizaHorasTrabalhadas)
                 RaisePropertyChanged("HorarioTrabalhado");

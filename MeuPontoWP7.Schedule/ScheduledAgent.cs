@@ -66,11 +66,6 @@ namespace MeuPontoWP7.Schedule
 
             appTile.Update(shellTileData);
 
-            // If debugging is enabled, launch the agent again in one minute.
-#if DEBUG_AGENT
-  ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(60));
-#endif
-
             // Call NotifyComplete to let the system know the agent is done working.
 
             NotifyComplete();

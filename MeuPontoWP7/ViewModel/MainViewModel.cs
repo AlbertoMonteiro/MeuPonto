@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using MeuPonto.Common;
 using MeuPonto.Common.Models;
 using MeuPonto.Common.Repositorios;
+using MeuPontoWP7.Extensions;
 using MeuPontoWP7.ScheduledActions;
 using Microsoft.Phone.Reactive;
 using System;
@@ -14,25 +15,21 @@ namespace MeuPontoWP7.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private readonly CacheContext _context;
-        private int _diferencaEntreRelogioECelular;
         private DateTime? _horario;
-        private TimeSpan _horarioDeTrabalhoDiario;
-        private TimeSpan _tempoDoAlmoco;
-        private TimeSpan _turnoMaximo;
-        private Configuracao _configuracao;
+        private double _width;
 
         public MainViewModel(IContextProvider repositorio)
         {
             _context = repositorio.CacheContext;
-            Batidas = new ObservableCollection<BatidaViewModel>();
+            Batidas = new ObservableCollection<Batida>();
 
             if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
-                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012, 1, 1, 8, 0, 0), Natureza = NaturezaBatida.Entrada });
-                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012, 1, 1, 12, 0, 0), Natureza = NaturezaBatida.Saida });
-                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012, 1, 1, 13, 0, 0), Natureza = NaturezaBatida.Entrada });
-                Batidas.Add(new BatidaViewModel { Horario = new DateTime(2012, 1, 1, 18, 0, 0), Natureza = NaturezaBatida.Saida });
+                Batidas.Add(new Batida { Horario = new DateTime(2012, 1, 1, 08, 0, 0), NaturezaBatida = NaturezaBatida.Entrada });
+                Batidas.Add(new Batida { Horario = new DateTime(2012, 1, 1, 12, 0, 0), NaturezaBatida = NaturezaBatida.Saida });
+                Batidas.Add(new Batida { Horario = new DateTime(2012, 1, 1, 13, 0, 0), NaturezaBatida = NaturezaBatida.Entrada });
+                Batidas.Add(new Batida { Horario = new DateTime(2012, 1, 1, 18, 0, 0), NaturezaBatida = NaturezaBatida.Saida });
             }
             else
             {
@@ -41,12 +38,12 @@ namespace MeuPontoWP7.ViewModel
                 _context.Batidas
                     .Where(x => x.Horario.Date == DateTime.Now.Date)
                     .ToList()
-                    .ForEach(batida => Batidas.Add(new BatidaViewModel(batida.Id, batida.Horario, batida.NaturezaBatida)));
+                    .ForEach(Batidas.Add);
 
                 CarregaConfiguracao();
 
                 AdicionarBatida = new RelayCommand(AddBatida);
-                RemoverBatida = new RelayCommand<BatidaViewModel>(RemoveBatida);
+                RemoverBatida = new RelayCommand<Batida>(RemoveBatida);
                 Batidas.CollectionChanged += (sender, args) =>
                 {
                     RaiseChangedHorarioTrabalhado();
@@ -58,7 +55,7 @@ namespace MeuPontoWP7.ViewModel
             }
         }
 
-        public ObservableCollection<BatidaViewModel> Batidas { get; set; }
+        public ObservableCollection<Batida> Batidas { get; set; }
 
         public DateTime? Horario
         {
@@ -72,31 +69,15 @@ namespace MeuPontoWP7.ViewModel
 
         public bool AtualizaHorasTrabalhadas
         {
-            get { return Batidas.Any() && Batidas.Last().Natureza == NaturezaBatida.Entrada; }
+            get { return Batidas.Any() && Batidas.Last().NaturezaBatida == NaturezaBatida.Entrada; }
         }
 
         public string HorarioTrabalhado
         {
             get
             {
-                if (Batidas.Count == 1)
-                {
-                    BatidaViewModel batida = Batidas.First();
-                    TimeSpan diferenca = DateTime.Now.Subtract(batida.Horario);
-                    return diferenca.ToString(@"hh\:mm\:ss");
-                }
-                if (Batidas.Count > 1)
-                {
-                    var timeSpan = Batidas.Aggregate(TimeSpan.Zero, (tempo, batida) =>
-                        {
-                            var diff = DateTime.Now.Subtract(batida.Horario);
-                            return batida.Natureza == NaturezaBatida.Entrada ? tempo + diff : tempo - diff;
-                        });
-                    return timeSpan.ToString(@"hh\:mm\:ss");
-                }
-                if (AtualizaHorasTrabalhadas)
-                    RaisePropertyChanged("HorarioTrabalhado");
-                return "00:00:00";
+                var resumo = Batidas.Resumo();
+                return resumo.ToString(@"hh\:mm\:ss");
             }
         }
 
@@ -105,57 +86,11 @@ namespace MeuPontoWP7.ViewModel
             get { return DateTime.Now.Day; }
         }
 
-        public TimeSpan TempoDiario
-        {
-            get { return _horarioDeTrabalhoDiario; }
-            set
-            {
-                _horarioDeTrabalhoDiario = value;
-                RaisePropertyChanged("TempoDiario");
-                _configuracao.HorarioDeTrabalhoDiario = value;
-                _context.SubmitChanges();
-            }
-        }
-
-        public TimeSpan TempoIntervalo
-        {
-            get { return _tempoDoAlmoco; }
-            set
-            {
-                _tempoDoAlmoco = value;
-                RaisePropertyChanged("TempoIntervalo");
-                _configuracao.QuantidadeDeHorasDeAlmoco = value;
-                _context.SubmitChanges();
-            }
-        }
-
-        public int DiferencaPonto
-        {
-            get { return _diferencaEntreRelogioECelular; }
-            set
-            {
-                _diferencaEntreRelogioECelular = value;
-                RaisePropertyChanged("DiferencaPonto");
-                _configuracao.MinutosDeDiferenca = value;
-                _context.SubmitChanges();
-            }
-        }
-
-        public TimeSpan TurnoMaximo
-        {
-            get { return _turnoMaximo; }
-            set
-            {
-                _turnoMaximo = value;
-                RaisePropertyChanged("TurnoMaximo");
-                _configuracao.TurnoMaximo = value;
-                _context.SubmitChanges();
-            }
-        }
+        public Configuracao Configuracao { get; set; }
 
         public RelayCommand AdicionarBatida { get; set; }
 
-        public RelayCommand<BatidaViewModel> RemoverBatida { get; set; }
+        public RelayCommand<Batida> RemoverBatida { get; set; }
 
         private void RaiseChangedHorarioTrabalhado()
         {
@@ -172,17 +107,16 @@ namespace MeuPontoWP7.ViewModel
 
         private void RegisterTasks()
         {
-            var actionScheduler = new ActionScheduler(Batidas.Select(model => (Batida)model), _configuracao);
+            var actionScheduler = new ActionScheduler(Batidas, Configuracao);
             actionScheduler.Analize();
             actionScheduler.Schedule();
         }
 
-        private void RemoveBatida(BatidaViewModel batidaViewModel)
+        private void RemoveBatida(Batida batida)
         {
-            if (batidaViewModel != null)
+            if (batida != null)
             {
-                Batidas.Remove(batidaViewModel);
-                var batida = _context.Batidas.Single(b => b.Id == batidaViewModel.Id);
+                Batidas.Remove(batida);
                 _context.Batidas.DeleteOnSubmit(batida);
                 _context.SubmitChanges();
             }
@@ -193,19 +127,15 @@ namespace MeuPontoWP7.ViewModel
             var dateTime = Horario.HasValue ? Horario.Value : DateTime.Now;
 
             var tipoBatida = (NaturezaBatida)(Batidas.Count % 2);
-            var batidaViewModel = new BatidaViewModel
+            var batida = new Batida
             {
                 Horario = dateTime,
-                Natureza = tipoBatida
+                NaturezaBatida = tipoBatida
             };
-            Batidas.Add(batidaViewModel);
-
-            Batida batida = batidaViewModel;
+            Batidas.Add(batida);
 
             _context.Batidas.InsertOnSubmit(batida);
             _context.SubmitChanges();
-
-            batidaViewModel.Id = batida.Id;
 
             if (AtualizaHorasTrabalhadas)
                 RaiseChangedHorarioTrabalhado();
@@ -213,17 +143,14 @@ namespace MeuPontoWP7.ViewModel
 
         private void CarregaConfiguracao()
         {
-            _configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
-            if (_configuracao.Id == 0)
+            Configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
+            if (Configuracao.Id == 0)
             {
-                _context.Configuracoes.InsertOnSubmit(_configuracao);
+                _context.Configuracoes.InsertOnSubmit(Configuracao);
                 _context.SubmitChanges();
             }
 
-            DiferencaPonto = _configuracao.MinutosDeDiferenca;
-            TempoDiario = _configuracao.HorarioDeTrabalhoDiario;
-            TempoIntervalo = _configuracao.QuantidadeDeHorasDeAlmoco;
-            TurnoMaximo = _configuracao.TurnoMaximo;
+            Configuracao.PropertyChanged += (sender, args) => _context.SubmitChanges();
         }
     }
 }
