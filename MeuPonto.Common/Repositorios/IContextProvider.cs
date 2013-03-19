@@ -1,6 +1,8 @@
+using System;
+
 namespace MeuPonto.Common.Repositorios
 {
-    public interface IContextProvider
+    public interface IContextProvider : IDisposable
     {
         CacheContext CacheContext { get; }
     }

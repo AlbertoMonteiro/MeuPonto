@@ -42,12 +42,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="system.data.linq" />
-    <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Net" />
-    <Reference Include="mscorlib.extensions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Batida.cs" />

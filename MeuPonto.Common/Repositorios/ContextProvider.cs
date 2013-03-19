@@ -1,10 +1,8 @@
-using System;
-
 namespace MeuPonto.Common.Repositorios
 {
-    public class ContextProvider : IContextProvider, IDisposable
+    public class ContextProvider : IContextProvider
     {
-        private static CacheContext _cacheContext;
+        private CacheContext _cacheContext;
 
         public ContextProvider()
         {
@@ -16,6 +14,7 @@ namespace MeuPonto.Common.Repositorios
         public void Dispose()
         {
             _cacheContext.SubmitChanges();
+            _cacheContext.Dispose();
         }
     }
 }
