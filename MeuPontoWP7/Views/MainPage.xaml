@@ -26,13 +26,15 @@
         <shell:ApplicationBar>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem IsEnabled="True" Text="lançar batidas"
-                                              Click="ApplicationBarMenuItem_Click_1" />
+                                              Click="ApplicationBarMenuItemClick1" />
+                <shell:ApplicationBarMenuItem IsEnabled="True" Text="importar batidas"
+                                              Click="ApplicationBarMenuItemClick2" />
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.add.rest.png" IsEnabled="True"
                                             Text="Registrar" Click="ApplicationBarIconButton_OnClick" />
             <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.feature.search.rest.png" IsEnabled="True"
-                                            Text="relatorio" Click="ApplicationBarIconButton_Click_2" />
-            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.questionmark.rest.png" IsEnabled="True" Text="ajuda" Click="ApplicationBarIconButton_Click_1"/>
+                                            Text="relatorio" Click="ApplicationBarIconButtonClick2" />
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.questionmark.rest.png" IsEnabled="True" Text="ajuda" Click="ApplicationBarIconButtonClick1"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     <phone:PhoneApplicationPage.DataContext>

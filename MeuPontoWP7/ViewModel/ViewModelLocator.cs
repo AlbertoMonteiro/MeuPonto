@@ -28,6 +28,7 @@ namespace MeuPontoWP7.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LancamentoViewModel>();
             SimpleIoc.Default.Register<RelatorioViewModel>();
+            SimpleIoc.Default.Register<ImportarBatidasViewModel>();
         }
 
         public MainViewModel Main
@@ -51,6 +52,14 @@ namespace MeuPontoWP7.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<RelatorioViewModel>();
+            }
+        }
+
+        public ImportarBatidasViewModel ImportarBatidas
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ImportarBatidasViewModel>();
             }
         }
 

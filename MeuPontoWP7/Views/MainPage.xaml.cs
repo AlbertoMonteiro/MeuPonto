@@ -29,19 +29,24 @@ namespace MeuPontoWP7.Views
             ((MainViewModel) DataContext).AdicionarBatida.Execute(null);
         }
 
-        private void ApplicationBarMenuItem_Click_1(object sender, EventArgs e)
+        private void ApplicationBarMenuItemClick1(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Views/Lancamentos.xaml", UriKind.RelativeOrAbsolute));
         }
 
-        private void ApplicationBarIconButton_Click_1(object sender, EventArgs e)
+        private void ApplicationBarIconButtonClick1(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Views/Sobre.xaml", UriKind.RelativeOrAbsolute));
         }
 
-        private void ApplicationBarIconButton_Click_2(object sender, EventArgs e)
+        private void ApplicationBarIconButtonClick2(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Views/Relatorio.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        private void ApplicationBarMenuItemClick2(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/ImportarBatidas.xaml", UriKind.RelativeOrAbsolute));            
         }
     }
 }
