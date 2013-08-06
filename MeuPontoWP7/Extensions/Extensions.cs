@@ -37,5 +37,10 @@ namespace MeuPontoWP7.Extensions
             }
             return diferenca;
         }
+
+        public static string RemoveBarras(this DateTime data)
+        {
+            return data.ToString("ddMMyyyy");
+        }
     }
 }

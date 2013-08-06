@@ -24,7 +24,7 @@
     <SilverlightAppEntry>MeuPontoWP7.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <ExpressionBlendVersion>5.0.31017.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>5.0.40218.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,6 +57,7 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\sl4-windowsphone71\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions" />
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
@@ -67,7 +68,11 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\sl4-wp71\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="system.data.linq" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Observable" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -85,6 +90,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BatidasToResumoConverter.cs" />
+    <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Converters\NaturezaBatidaConverter.cs" />
     <Compile Include="Converters\NaturezaBatidaToColorConverter.cs" />
     <Compile Include="Converters\StringToInt.cs" />
@@ -96,6 +102,12 @@
     <Compile Include="ScheduledActions\ActionScheduler.cs" />
     <Compile Include="ScheduledActions\Lembrete.cs" />
     <Compile Include="ScheduledActions\TipoLembrete.cs" />
+    <Compile Include="Services\Deserializer.cs" />
+    <Compile Include="Services\Fortes\Models\Empresa.cs" />
+    <Compile Include="Services\Fortes\FortesPonto.cs" />
+    <Compile Include="Services\Fortes\Models\Historico.cs" />
+    <Compile Include="Services\Fortes\Models\Informacao.cs" />
+    <Compile Include="Services\Result.cs" />
     <Compile Include="SpResumoControl.xaml.cs">
       <DependentUpon>SpResumoControl.xaml</DependentUpon>
     </Compile>
@@ -103,6 +115,7 @@
       <DependentUpon>Top.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Group.cs" />
+    <Compile Include="ViewModel\ImportarBatidasState.cs" />
     <Compile Include="ViewModel\ImportarBatidasViewModel.cs" />
     <Compile Include="ViewModel\LancamentoViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
