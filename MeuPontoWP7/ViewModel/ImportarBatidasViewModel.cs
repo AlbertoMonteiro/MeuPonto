@@ -1,19 +1,19 @@
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using MeuPonto.Common.Models;
+using MeuPonto.Common.Repositorios;
+using MeuPontoWP7.Extensions;
+using MeuPontoWP7.Services.Fortes.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using MeuPonto.Common;
-using MeuPonto.Common.Models;
-using MeuPonto.Common.Repositorios;
-using MeuPontoWP7.Services.Fortes.Models;
 using System.Linq;
 
 namespace MeuPontoWP7.ViewModel
 {
     public class ImportarBatidasViewModel : ViewModelBase
     {
+        #region Fields
         private readonly IContextProvider repositorio;
         private DateTime dataFinal;
         private DateTime dataInicial;
@@ -21,17 +21,16 @@ namespace MeuPontoWP7.ViewModel
         private ImportarBatidasState importarBatidasState;
         private DateTime nascimento;
         private string nome;
-        private string periodo;
         private string rg;
         private string saldo;
-        private string saldoInicial;
-        private Regex regex = new Regex(@"Trabalho de (\d{2}:\d{2}) a (\d{2}:\d{2})");
+        private string saldoInicial; 
+        #endregion
 
         public ImportarBatidasViewModel(IContextProvider repositorio)
         {
             this.repositorio = repositorio;
 
-            DataFinal = DateTime.Today;
+            Nascimento = DataFinal = DateTime.Today;
             DataInicial = DateTime.Today.Subtract(TimeSpan.FromDays(14));
 
             Empresas = new ObservableCollection<Empresa>();
@@ -40,9 +39,9 @@ namespace MeuPontoWP7.ViewModel
 
             if (IsInDesignMode)
             {
+                #region Design Data
                 RG = "2007009198057";
                 Nome = "Alberto Monteiro";
-                Nascimento = new DateTime(1990, 3, 16);
                 Saldo = "07:00C";
                 SaldoInicial = "06:00C";
 
@@ -66,7 +65,8 @@ namespace MeuPontoWP7.ViewModel
                         }
                     };
                     Historico.Add(historico);
-                }
+                } 
+                #endregion
             }
             else
             {
@@ -172,16 +172,9 @@ namespace MeuPontoWP7.ViewModel
         {
             get
             {
-                var contador = 0;
-                return from historico in Historico
-                       from informacao in historico.Informacoes
-                       where regex.IsMatch(informacao.Descricao)
-                       from @group in regex.Match(informacao.Descricao).Groups.Cast<Group>()
-                       where @group.Length == 5
-                       let horario = TimeSpan.Parse(@group.Value)
-                       let batida = new Batida { Horario = historico.Data.Add(horario), NaturezaBatida = ((NaturezaBatida)(contador++ % 2)) }
-                       group batida by batida.Horario.Date.ToString("dd/MM/yyyy") into batidas
-                       select new Group<Batida>(batidas.Key, batidas);
+                return from batida in Historico.ToBatidas()
+                       group batida by batida.Horario.Date.ToString("dd/MM/yyyy") into batidasGrouped
+                       select new Group<Batida>(batidasGrouped.Key, batidasGrouped);
             }
         }
 

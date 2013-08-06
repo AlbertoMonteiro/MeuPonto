@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{4642eec9-9aec-4435-b961-6941cc9bf10c}" Title="Meu Ponto" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Alberto Monteiro" Description="Controle seu ponto no trabalho" Publisher="Meu Ponto" BitsPerPixel="16">
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
+  <DefaultLanguage xmlns="" code="en-US" />
+  <Languages xmlns="">
+    <Language code="pt-BR" />
+  </Languages>
+  <App xmlns="" ProductID="{419983f5-5800-4d56-8b1e-00a61aa770c6}" Title="Meu Ponto" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Alberto Monteiro" Description="Controle seu ponto no trabalho" Publisher="Meu Ponto" BitsPerPixel="16" PublisherID="{128027fe-888b-4aa4-80f8-c8e268d900ee}">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_PUSH_NOTIFICATION" />
@@ -15,12 +19,23 @@
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="Meu_PontoToken" TaskName="_default">
-        <TemplateType5>
-          <BackgroundImageURI IsRelative="true" IsResource="false">Background.png</BackgroundImageURI>
+        <TemplateFlip>
+          <SmallImageURI IsResource="false" IsRelative="true">Background.png</SmallImageURI>
           <Count>0</Count>
+          <BackgroundImageURI IsResource="false" IsRelative="true">Background.png</BackgroundImageURI>
           <Title>Meu Ponto</Title>
-        </TemplateType5>
+          <BackContent></BackContent>
+          <BackBackgroundImageURI></BackBackgroundImageURI>
+          <BackTitle></BackTitle>
+          <DeviceLockImageURI></DeviceLockImageURI>
+          <HasLarge>false</HasLarge>
+        </TemplateFlip>
       </PrimaryToken>
     </Tokens>
+    <ScreenResolutions>
+      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
+      <ScreenResolution Name="ID_RESOLUTION_WXGA" />
+      <ScreenResolution Name="ID_RESOLUTION_HD720P" />
+    </ScreenResolutions>
   </App>
 </Deployment>

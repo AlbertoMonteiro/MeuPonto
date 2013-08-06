@@ -1,8 +1,10 @@
 ﻿using MeuPonto.Common;
 using MeuPonto.Common.Models;
+using MeuPontoWP7.Services.Fortes.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace MeuPontoWP7.Extensions
 {
@@ -12,14 +14,14 @@ namespace MeuPontoWP7.Extensions
         {
             var diferenca = TimeSpan.Zero;
             var batidaViewModels = batidas.ToList();
-            
+
             if (batidaViewModels.Count == 1)
             {
                 var batida = batidaViewModels.First();
                 if (batida.Horario.Date == DateTime.Now.Date)
                 {
                     var dia = batida.Horario.Date;
-                    diferenca = DateTime.Now.Subtract(batida.Horario); 
+                    diferenca = DateTime.Now.Subtract(batida.Horario);
                 }
                 else
                 {
@@ -41,6 +43,20 @@ namespace MeuPontoWP7.Extensions
         public static string RemoveBarras(this DateTime data)
         {
             return data.ToString("ddMMyyyy");
+        }
+
+        public static IEnumerable<Batida> ToBatidas(this IEnumerable<Historico> historicos)
+        {
+            var regex = new Regex(@"Trabalho de (\d{2}:\d{2}) a (\d{2}:\d{2})");
+            var contador = 0;
+            return from historico in historicos
+                   from informacao in historico.Informacoes
+                   where regex.IsMatch(informacao.Descricao)
+                   from @group in regex.Match(informacao.Descricao).Groups.Cast<Group>()
+                   where @group.Length == 5
+                   let horario = TimeSpan.Parse(@group.Value)
+                   let batida = new Batida { Horario = historico.Data.Add(horario), NaturezaBatida = ((NaturezaBatida)(contador++ % 2)) }
+                   select batida;
         }
     }
 }
