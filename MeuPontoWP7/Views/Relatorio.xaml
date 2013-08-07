@@ -6,14 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:Converters="clr-namespace:MeuPontoWP7.Converters"
+    xmlns:converters="clr-namespace:MeuPontoWP7.Converters"
     x:Class="MeuPontoWP7.Views.Relatorio"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
 	<phone:PhoneApplicationPage.Resources>
-		<Converters:BatidasToResumoConverter x:Key="BatidasToResumoConverter"/>
+		<converters:BatidasToResumoConverter x:Key="BatidasToResumoConverter"/>
 	</phone:PhoneApplicationPage.Resources>
 	<phone:PhoneApplicationPage.FontFamily>
 		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
@@ -51,33 +51,20 @@
         	<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="12,0,0,0" TextWrapping="Wrap" Text="Até" VerticalAlignment="Top"/>
         	<toolkit:DatePicker Margin="0,27,0,0" VerticalAlignment="Top" Height="72" Value="{Binding De, Mode=TwoWay}"/>
         	<toolkit:DatePicker Grid.Column="1" Margin="0,27,0,0" VerticalAlignment="Top" Height="72" Value="{Binding Ate, Mode=TwoWay}"/>
-        	<toolkit:LongListSelector Grid.Row="1" ItemsSource="{Binding Batidas}" Grid.ColumnSpan="2" ItemTemplate="{StaticResource BatidasTemplate}">
-                <toolkit:LongListSelector.GroupHeaderTemplate>
+        	<phone:LongListSelector Grid.Row="1" ItemsSource="{Binding Batidas}" Grid.ColumnSpan="2" ItemTemplate="{StaticResource BatidasTemplate}">
+                <phone:LongListSelector.GroupHeaderTemplate>
                     <DataTemplate>
                         <Border Background="{StaticResource PhoneAccentBrush}" Margin="6" HorizontalAlignment="Left" Padding="5,0">
                             <TextBlock Text="{Binding Title}" FontSize="40"/>
                         </Border>
                     </DataTemplate>
-                </toolkit:LongListSelector.GroupHeaderTemplate>
-                <toolkit:LongListSelector.GroupFooterTemplate>
+                </phone:LongListSelector.GroupHeaderTemplate>
+                <phone:LongListSelector.GroupFooterTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding ., Converter={StaticResource BatidasToResumoConverter}}" TextAlignment="Center" FontSize="36"/>
                     </DataTemplate>
-                </toolkit:LongListSelector.GroupFooterTemplate>
-                <toolkit:LongListSelector.GroupItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="White" Background="{StaticResource PhoneAccentBrush}" Padding="5,0" Margin="6">
-                            <TextBlock Text="{Binding Title}" Foreground="White" FontSize="40"/>
-                        </Border>
-                    </DataTemplate>
-                </toolkit:LongListSelector.GroupItemTemplate>
-                <toolkit:LongListSelector.GroupItemsPanel>
-                    <ItemsPanelTemplate>
-                        <toolkit:WrapPanel/>
-                    </ItemsPanelTemplate>
-                </toolkit:LongListSelector.GroupItemsPanel>
-
-            </toolkit:LongListSelector>
+                </phone:LongListSelector.GroupFooterTemplate>
+            </phone:LongListSelector>
         </Grid>
     </Grid>
 

@@ -21,15 +21,15 @@
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <local:Top/>
+        <local:Top />
         <TextBlock Text="lançamentos" Grid.Row="1" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" />
-        <Grid x:Name="ContentPanel" Grid.Row="2" Margin="12,0,12,0">
+        <Grid Grid.Row="2" Margin="12,0,12,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -40,18 +40,20 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" Text="Dia" VerticalAlignment="Top" Foreground="Black" />
+            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" Text="Dia" VerticalAlignment="Top"
+                       Foreground="Black" />
             <toolkit:DatePicker VerticalAlignment="Top" Margin="0,15,0,0"
                                 Value="{Binding Dia, Mode=TwoWay}" Style="{StaticResource DatePickerBlack}" />
-            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" Text="Horário" VerticalAlignment="Top" Grid.Column="1" Foreground="Black" />
-            <toolkit:TimePicker VerticalAlignment="Top" Value="{Binding Horario, Mode=TwoWay}" Grid.Column="1" Margin="0,15,15,0" Style="{StaticResource TimePickerBlack}" />
+            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" Text="Horário" VerticalAlignment="Top"
+                       Grid.Column="1" Foreground="Black" />
+            <toolkit:TimePicker VerticalAlignment="Top" Value="{Binding Horario, Mode=TwoWay}" Grid.Column="1"
+                                Margin="0,15,15,0" Style="{StaticResource TimePickerBlack}" />
             <local:SpResumoControl Grid.Row="1" Grid.ColumnSpan="2" Visibility="{Binding DiaSelecionado, Mode=OneWay}" />
-            <ListBox x:Name="LblBatidas" Grid.Row="2" ItemTemplate="{StaticResource BatidasTemplate}"
+            <ListBox Grid.Row="2" ItemTemplate="{StaticResource BatidasTemplate}"
                      Grid.ColumnSpan="2" ItemsSource="{Binding Batidas}"
-                     ItemContainerStyle="{StaticResource StrechListBoxItem}" ItemsPanel="{StaticResource ListBoxWrapPanel}" />
+                     ItemContainerStyle="{StaticResource StrechListBoxItem}" />
 
             <TextBlock Grid.Row="3" Text="{Binding Resumo}" Grid.ColumnSpan="2" Margin="0,5" TextAlignment="Center" />
         </Grid>
     </Grid>
-
 </phone:PhoneApplicationPage>
