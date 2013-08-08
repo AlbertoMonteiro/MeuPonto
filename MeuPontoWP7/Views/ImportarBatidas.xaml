@@ -26,25 +26,27 @@
     <Grid Background="White" Margin="0,1,0,-1">
         <i:Interaction.Triggers>
             <ec:DataTrigger Binding="{Binding ImportarBatidasState}" Value="1">
-                <ec:GoToStateAction StateName="Filtrando"/>
+                <ec:GoToStateAction StateName="Filtrando" />
             </ec:DataTrigger>
             <ec:DataTrigger Value="2" Binding="{Binding ImportarBatidasState}">
-                <ec:GoToStateAction StateName="Importando"/>
+                <ec:GoToStateAction StateName="Importando" />
             </ec:DataTrigger>
         </i:Interaction.Triggers>
         <VisualStateManager.CustomVisualStateManager>
-            <ec:ExtendedVisualStateManager/>
+            <ec:ExtendedVisualStateManager />
         </VisualStateManager.CustomVisualStateManager>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="Importacao">
-                <VisualState x:Name="Logando"/>
+                <VisualState x:Name="Logando" />
                 <VisualState x:Name="Filtrando">
                     <Storyboard>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="LoginGrid">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                       Storyboard.TargetName="LoginGrid">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" />
                         </DoubleAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="LoginGrid">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                       Storyboard.TargetName="LoginGrid">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
                                     <Visibility>Visible</Visibility>
@@ -56,7 +58,8 @@
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="FiltroGrid">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                       Storyboard.TargetName="FiltroGrid">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
                                     <Visibility>Collapsed</Visibility>
@@ -68,19 +71,22 @@
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="FiltroGrid">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                       Storyboard.TargetName="FiltroGrid">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Importando">
                     <Storyboard>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="FiltroGrid">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                       Storyboard.TargetName="FiltroGrid">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" />
                         </DoubleAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="FiltroGrid">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                       Storyboard.TargetName="FiltroGrid">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
                                     <Visibility>Visible</Visibility>
@@ -92,11 +98,13 @@
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ImportandoGrid">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                       Storyboard.TargetName="ImportandoGrid">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
                         </DoubleAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ImportandoGrid">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                       Storyboard.TargetName="ImportandoGrid">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
                                     <Visibility>Collapsed</Visibility>
@@ -108,7 +116,8 @@
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="LoginGrid">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                       Storyboard.TargetName="LoginGrid">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
                                     <Visibility>Collapsed</Visibility>
@@ -126,16 +135,18 @@
         </Grid.RowDefinitions>
         <local:Top />
         <TextBlock Text="importação" Grid.Row="1" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" />
-        <Grid x:Name="LoginGrid" Grid.Row="2" d:IsHidden="True">
+        <Grid x:Name="LoginGrid" Grid.Row="2" d:IsHidden="True" Visibility="Collapsed">
             <StackPanel>
                 <TextBlock Text="RG" Foreground="Black" Margin="12,0,0,0"></TextBlock>
-                <TextBox BorderBrush="#BF000000" Background="Black" Foreground="White" Text="{Binding RG, Mode=TwoWay}" SelectionForeground="Black"></TextBox>
+                <TextBox BorderBrush="#BF000000" Background="Black" Foreground="White" Text="{Binding RG, Mode=TwoWay}"
+                         SelectionForeground="Black">
+                </TextBox>
                 <TextBlock Text="Nascimento" Foreground="Black" Margin="12,0,0,0"></TextBlock>
                 <toolkit:DatePicker Style="{StaticResource DatePickerBlack}" Value="{Binding Nascimento, Mode=TwoWay}"></toolkit:DatePicker>
                 <Button Content="Logar" BorderBrush="Black" Foreground="Black">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <command:EventToCommand Command="{Binding OnFiltrar}"/>
+                            <command:EventToCommand Command="{Binding OnFiltrar}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -144,40 +155,45 @@
         <Grid x:Name="FiltroGrid" Grid.Row="2" Visibility="Collapsed" Opacity="0" d:IsHidden="True">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="12,5,0,5">
-                    <TextBlock Text="Usuário: " Foreground="Black"/>
-                    <TextBlock Text="{Binding Nome}" Foreground="Black"/>
+                    <TextBlock Text="Usuário: " Foreground="Black" />
+                    <TextBlock Text="{Binding Nome}" Foreground="Black" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="12,5,0,5">
-                    <TextBlock Text="RG: " Foreground="Black"/>
-                    <TextBlock Text="{Binding RG}" Margin="5,0" Foreground="Black"/>
+                    <TextBlock Text="RG: " Foreground="Black" />
+                    <TextBlock Text="{Binding RG}" Margin="5,0" Foreground="Black" />
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="Empresa:" Foreground="Black" Margin="12,0,0,0"/>
-                    <toolkit:ListPicker ItemsSource="{Binding Empresas}" SelectedItem="{Binding EmpresaSelecionada, Mode=TwoWay}" Margin="13,12,11,12" Background="Black" BorderBrush="#BF000000">
+                    <TextBlock Text="Empresa:" Foreground="Black" Margin="12,0,0,0" />
+                    <toolkit:ListPicker ItemsSource="{Binding Empresas}"
+                                        SelectedItem="{Binding EmpresaSelecionada, Mode=TwoWay}" Margin="13,12,11,12"
+                                        Background="Black" BorderBrush="#BF000000">
                         <toolkit:ListPicker.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Nome}"/>
+                                <TextBlock Text="{Binding Nome}" />
                             </DataTemplate>
                         </toolkit:ListPicker.ItemTemplate>
                     </toolkit:ListPicker>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="Período:" Foreground="Black" Margin="12,0,0,0"/>
+                    <TextBlock Text="Período:" Foreground="Black" Margin="12,0,0,0" />
                     <Grid Height="72">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <toolkit:DatePicker Value="{Binding DataInicial, Mode=TwoWay}" Style="{StaticResource DatePickerBlack}"/>
-                        <TextBlock Text="a" Foreground="Black" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <toolkit:DatePicker Value="{Binding DataFinal, Mode=TwoWay}" Style="{StaticResource DatePickerBlack}" Grid.Column="2"/>
+                        <toolkit:DatePicker Value="{Binding DataInicial, Mode=TwoWay}"
+                                            Style="{StaticResource DatePickerBlack}" />
+                        <TextBlock Text="a" Foreground="Black" Grid.Column="1" HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                        <toolkit:DatePicker Value="{Binding DataFinal, Mode=TwoWay}"
+                                            Style="{StaticResource DatePickerBlack}" Grid.Column="2" />
                     </Grid>
                 </StackPanel>
                 <Button Content="Importar" BorderBrush="Black" Foreground="#FC000000">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <command:EventToCommand Command="{Binding OnImportar}"/>
+                            <command:EventToCommand Command="{Binding OnImportar}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -185,45 +201,39 @@
         </Grid>
         <Grid x:Name="ImportandoGrid" Grid.Row="2" Margin="12,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Nome: " Foreground="Black"/>
-                    <TextBlock Text="{Binding Nome}" Foreground="Black"/>
+                    <TextBlock Text="Nome: " Foreground="Black" />
+                    <TextBlock Text="{Binding Nome}" Foreground="Black" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="RG: " Foreground="Black"/>
-                    <TextBlock Text="{Binding RG}" Foreground="Black"/>
+                    <TextBlock Text="RG: " Foreground="Black" />
+                    <TextBlock Text="{Binding RG}" Foreground="Black" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Périodo: " Foreground="Black"/>
-                    <TextBlock Text="{Binding Periodo}" Foreground="Black"/>
+                    <TextBlock Text="Périodo: " Foreground="Black" />
+                    <TextBlock Text="{Binding Periodo}" Foreground="Black" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Saldo: " Foreground="Black"/>
-                    <TextBlock Text="{Binding Saldo}" Foreground="Black"/>
+                    <TextBlock Text="Saldo: " Foreground="Black" />
+                    <TextBlock Text="{Binding Saldo}" Foreground="Black" />
                 </StackPanel>
             </StackPanel>
-            <phone:LongListSelector Grid.Row="1" ItemsSource="{Binding Batidas}" Grid.ColumnSpan="2" ItemTemplate="{StaticResource BatidasTemplate}" Background="{x:Null}">
-                <phone:LongListSelector.GroupHeaderTemplate>
-                    <DataTemplate>
-                        <Border Background="{StaticResource PhoneAccentBrush}" Margin="6" HorizontalAlignment="Left" Padding="5,0">
-                            <TextBlock Text="{Binding Title}" FontSize="40"/>
-                        </Border>
-                    </DataTemplate>
-                </phone:LongListSelector.GroupHeaderTemplate>
-                <phone:LongListSelector.GroupFooterTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding ., Converter={StaticResource BatidasToResumoConverter}}" TextAlignment="Center" FontSize="36"/>
-                    </DataTemplate>
-                </phone:LongListSelector.GroupFooterTemplate>
-            </phone:LongListSelector>
+            <phone:LongListSelector Grid.Row="1" 
+                                    Grid.ColumnSpan="2"
+                                    JumpListStyle="{StaticResource LongListSelectorStyle1}"
+                                    Background="Transparent"
+                                    ItemTemplate="{StaticResource BatidasTemplate}" 
+                                    ItemsSource="{Binding Batidas, Mode=OneWay}"
+                                    IsGroupingEnabled="True" 
+                                    HideEmptyGroups="True" GroupHeaderTemplate="{StaticResource LongListHeaderTemplatesOfBatidas}"/>
             <StackPanel Orientation="Horizontal" Grid.Row="2">
-                <TextBlock Text="Saldo inicial: " Foreground="Black"/>
-                <TextBlock Text="{Binding SaldoInicial}" Foreground="Black"/>
+                <TextBlock Text="Saldo inicial: " Foreground="Black" />
+                <TextBlock Text="{Binding SaldoInicial}" Foreground="Black" />
             </StackPanel>
         </Grid>
     </Grid>

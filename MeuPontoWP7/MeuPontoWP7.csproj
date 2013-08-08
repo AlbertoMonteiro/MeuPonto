@@ -156,6 +156,7 @@
     <Compile Include="Top.xaml.cs">
       <DependentUpon>Top.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\KeyGroup.cs" />
     <Compile Include="ViewModel\Group.cs" />
     <Compile Include="ViewModel\ImportarBatidasState.cs" />
     <Compile Include="ViewModel\ImportarBatidasViewModel.cs" />

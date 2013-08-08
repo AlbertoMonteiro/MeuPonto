@@ -51,14 +51,7 @@
         	<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="12,0,0,0" TextWrapping="Wrap" Text="Até" VerticalAlignment="Top"/>
         	<toolkit:DatePicker Margin="0,27,0,0" VerticalAlignment="Top" Height="72" Value="{Binding De, Mode=TwoWay}"/>
         	<toolkit:DatePicker Grid.Column="1" Margin="0,27,0,0" VerticalAlignment="Top" Height="72" Value="{Binding Ate, Mode=TwoWay}"/>
-        	<phone:LongListSelector Grid.Row="1" ItemsSource="{Binding Batidas}" Grid.ColumnSpan="2" ItemTemplate="{StaticResource BatidasTemplate}">
-                <phone:LongListSelector.GroupHeaderTemplate>
-                    <DataTemplate>
-                        <Border Background="{StaticResource PhoneAccentBrush}" Margin="6" HorizontalAlignment="Left" Padding="5,0">
-                            <TextBlock Text="{Binding Title}" FontSize="40"/>
-                        </Border>
-                    </DataTemplate>
-                </phone:LongListSelector.GroupHeaderTemplate>
+        	<phone:LongListSelector Grid.Row="1" ItemsSource="{Binding Batidas}" Grid.ColumnSpan="2" ItemTemplate="{StaticResource BatidasTemplate}" JumpListStyle="{StaticResource LongListSelectorStyle1}" HideEmptyGroups="True" LayoutMode="List" IsGroupingEnabled="True" GroupHeaderTemplate="{StaticResource LongListHeaderTemplatesOfBatidas}">
                 <phone:LongListSelector.GroupFooterTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding ., Converter={StaticResource BatidasToResumoConverter}}" TextAlignment="Center" FontSize="36"/>

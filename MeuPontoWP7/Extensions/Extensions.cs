@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using MeuPontoWP7.ViewModel;
 
 namespace MeuPontoWP7.Extensions
 {
@@ -67,6 +68,11 @@ namespace MeuPontoWP7.Extensions
                    let horario = TimeSpan.Parse(@group.Value)
                    let batida = new Batida { Horario = historico.Data.Add(horario), NaturezaBatida = ((NaturezaBatida)(contador++ % 2)) }
                    select batida;
+        }
+
+        public static List<KeyGroup<T>> ToKeyGroup<T>(this IEnumerable<T> items, Func<T, string> grouper)
+        {
+            return KeyGroup<T>.CreateGroups(items, grouper);
         }
     }
 }

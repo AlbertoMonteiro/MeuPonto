@@ -6,6 +6,7 @@ using MeuPonto.Common;
 using MeuPonto.Common.Models;
 using MeuPonto.Common.Repositorios;
 using System.Linq;
+using MeuPontoWP7.Extensions;
 
 namespace MeuPontoWP7.ViewModel
 {
@@ -31,17 +32,15 @@ namespace MeuPontoWP7.ViewModel
                 batidas.Add(new Batida { Horario = new DateTime(2012, 2, 1, 13, 0, 0), NaturezaBatida = NaturezaBatida.Entrada });
                 batidas.Add(new Batida { Horario = new DateTime(2012, 2, 1, 17, 0, 0), NaturezaBatida = NaturezaBatida.Saida });
 
-                var batidasAgrupadas = batidas.
-                    GroupBy(x => x.Horario.Date.ToString("dd/MM/yyyy")).
-                    Select(x => new Group<Batida>(x.Key.ToString(), x));
+                var groups = batidas.ToKeyGroup(item => item.Horario.Date.ToString("dd/MM/yyyy"));
 
-                Batidas = new ObservableCollection<Group<Batida>>(batidasAgrupadas);
+                Batidas = new ObservableCollection<KeyGroup<Batida>>(groups);
             }
             else
             {
                 _cacheContext = repositorio.CacheContext;
                 // Code runs in Blend --> create design time data.
-                Batidas = new ObservableCollection<Group<Batida>>();
+                Batidas = new ObservableCollection<KeyGroup<Batida>>();
 
                 PropertyChanged += (sender, args) =>
                 {
@@ -56,11 +55,10 @@ namespace MeuPontoWP7.ViewModel
             if (De.HasValue && Ate.HasValue)
             {
                 var batidas = _cacheContext.Batidas.Where(batida => De.Value.Date >= batida.Horario.Date && batida.Horario.Date <= Ate.Value.Date).ToList();
-                var agrupamentos = batidas.GroupBy(bat => bat.Horario.Date)
-                                          .Select(batidasAgrupadas => new Group<Batida>(batidasAgrupadas.Key.ToString("dd/MM/yyyy"), batidasAgrupadas))
-                                          .ToList();
+                var groups = batidas.ToKeyGroup(item => item.Horario.Date.ToString("dd/MM/yyyy"));
+
                 Batidas.Clear();
-                agrupamentos.ForEach(Batidas.Add);
+                groups.ForEach(Batidas.Add);
             }
         }
 
@@ -84,6 +82,6 @@ namespace MeuPontoWP7.ViewModel
             }
         }
 
-        public ObservableCollection<Group<Batida>> Batidas { get; set; }
+        public ObservableCollection<KeyGroup<Batida>> Batidas { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using System.Globalization;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MeuPonto.Common.Models;
@@ -39,10 +40,25 @@ namespace MeuPontoWP7.ViewModel
 
             Empresas = new ObservableCollection<Empresa>();
             Historico = new ObservableCollection<Historico>();
-            Historico.CollectionChanged += (sender, args) =>
+            Historico.CollectionChanged += (sender, args) => RaisePropertyChanged("Batidas");
+
+            for (int i = 0; i < 5; i++)
             {
-                RaisePropertyChanged("Batidas");
-            };
+                var historico = new Historico
+                {
+                    Data = DateTime.Today.AddDays((-1) * i),
+                    Diferenca = "a",
+                    Previsto = "b",
+                    Realizado = "c",
+                    Saldo = "s",
+                    Informacoes = new List<Informacao>
+                    {
+                        new Informacao {Descricao = @"Trabalho de 08:00 a 12:00"},
+                        new Informacao {Descricao = @"Trabalho de 13:00 a 18:00"}
+                    }
+                };
+                Historico.Add(historico);
+            }
 
             if (IsInDesignMode)
             {
@@ -56,23 +72,6 @@ namespace MeuPontoWP7.ViewModel
                 Empresas.Add(fortes);
                 EmpresaSelecionada = fortes;
 
-                for (int i = 0; i < 5; i++)
-                {
-                    var historico = new Historico
-                    {
-                        Data = DateTime.Today.AddDays((-1) * i),
-                        Diferenca = "a",
-                        Previsto = "b",
-                        Realizado = "c",
-                        Saldo = "s",
-                        Informacoes = new List<Informacao>
-                        {
-                            new Informacao {Descricao = @"Trabalho de 08:00 a 12:00"},
-                            new Informacao {Descricao = @"Trabalho de 13:00 a 18:00"}
-                        }
-                    };
-                    Historico.Add(historico);
-                }
                 #endregion
             }
             else
@@ -175,13 +174,12 @@ namespace MeuPontoWP7.ViewModel
 
         public ObservableCollection<Historico> Historico { get; set; }
 
-        public IEnumerable<Group<Batida>> Batidas
+        public IEnumerable<KeyGroup<Batida>> Batidas
         {
             get
             {
-                return from batida in Historico.ToBatidas()
-                       group batida by batida.Horario.Date.ToString("dd/MM/yyyy") into batidasGrouped
-                       select new Group<Batida>(batidasGrouped.Key, batidasGrouped);
+
+                return Historico.ToBatidas().ToKeyGroup(item => item.Horario.Date.ToString("dd/MM/yyyy"));
             }
         }
 
