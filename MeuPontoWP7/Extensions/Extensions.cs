@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.Text;
 using MeuPonto.Common;
 using MeuPonto.Common.Models;
 using MeuPontoWP7.Services.Fortes.Models;
