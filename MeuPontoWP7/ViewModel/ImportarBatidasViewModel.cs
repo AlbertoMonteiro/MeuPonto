@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using MeuPonto.Common.Models;
 using MeuPonto.Common.Repositorios;
 using MeuPontoWP7.Extensions;
+using MeuPontoWP7.Services.Fortes;
 using MeuPontoWP7.Services.Fortes.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace MeuPontoWP7.ViewModel
     {
         #region Fields
         private readonly IContextProvider repositorio;
+        private readonly FortesPonto fortesPonto;
         private DateTime dataFinal;
         private DateTime dataInicial;
         private Empresa empresaSelecionada;
@@ -23,19 +25,24 @@ namespace MeuPontoWP7.ViewModel
         private string nome;
         private string rg;
         private string saldo;
-        private string saldoInicial; 
+        private string saldoInicial;
         #endregion
 
-        public ImportarBatidasViewModel(IContextProvider repositorio)
+        public ImportarBatidasViewModel(IContextProvider repositorio, FortesPonto fortesPonto)
         {
             this.repositorio = repositorio;
+            this.fortesPonto = fortesPonto;
 
-            Nascimento = DataFinal = DateTime.Today;
+            DataFinal = DateTime.Today;
+            Nascimento = DateTime.Today.AddYears(-18);
             DataInicial = DateTime.Today.Subtract(TimeSpan.FromDays(14));
 
             Empresas = new ObservableCollection<Empresa>();
             Historico = new ObservableCollection<Historico>();
-            Historico.CollectionChanged += (sender, args) => RaisePropertyChanged("Batidas");
+            Historico.CollectionChanged += (sender, args) =>
+            {
+                RaisePropertyChanged("Batidas");
+            };
 
             if (IsInDesignMode)
             {
@@ -65,7 +72,7 @@ namespace MeuPontoWP7.ViewModel
                         }
                     };
                     Historico.Add(historico);
-                } 
+                }
                 #endregion
             }
             else
@@ -190,11 +197,31 @@ namespace MeuPontoWP7.ViewModel
 
         private void Importar()
         {
+            fortesPonto.Batidas(RG,EmpresaSelecionada.Codigo, DataInicial,DataFinal,PreencheHistorico);
+        }
+
+        private void PreencheHistorico(IEnumerable<Historico> historicos)
+        {
             ImportarBatidasState = ImportarBatidasState.Importando;
+            foreach (var historico in historicos)
+                Historico.Add(historico);
         }
 
         private void Filtrar()
         {
+            fortesPonto.Login(RG, Nascimento, value =>
+            {
+                if (value.Value)
+                    fortesPonto.Empresas(RG, PreencheEmpresas);
+            });
+        }
+
+        private void PreencheEmpresas(IEnumerable<Empresa> empresas)
+        {
+            foreach (var empresa in empresas)
+                Empresas.Add(empresa);
+
+            EmpresaSelecionada = empresas.FirstOrDefault();
             ImportarBatidasState = ImportarBatidasState.Filtrando;
         }
     }

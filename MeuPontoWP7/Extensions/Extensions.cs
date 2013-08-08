@@ -1,4 +1,6 @@
-﻿using MeuPonto.Common;
+﻿using System.IO;
+using System.Text;
+using MeuPonto.Common;
 using MeuPonto.Common.Models;
 using MeuPontoWP7.Services.Fortes.Models;
 using System;
@@ -43,6 +45,14 @@ namespace MeuPontoWP7.Extensions
         public static string RemoveBarras(this DateTime data)
         {
             return data.ToString("ddMMyyyy");
+        }
+
+        public static string ToMD5(this DateTime data)
+        {
+            var md5 = new System.Security.Cryptography.MD5();
+            var bytes = Encoding.UTF8.GetBytes(data.ToString("ddMMyyyy"));
+            var hash = md5.ComputeHash(bytes);
+            return BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
         }
 
         public static IEnumerable<Batida> ToBatidas(this IEnumerable<Historico> historicos)

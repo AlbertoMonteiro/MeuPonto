@@ -1,6 +1,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using MeuPonto.Common.Repositorios;
+using MeuPontoWP7.Services.Fortes;
 using Microsoft.Practices.ServiceLocation;
 
 namespace MeuPontoWP7.ViewModel
@@ -17,12 +18,14 @@ namespace MeuPontoWP7.ViewModel
                 // Create design time view services and models
                 SimpleIoc.Default.Unregister<IContextProvider>();
                 SimpleIoc.Default.Register<IContextProvider, ContextProvider>();
+                SimpleIoc.Default.Register<FortesPonto>();
             }
             else
             {
                 // Create run time view services and models
                 SimpleIoc.Default.Unregister<IContextProvider>();
                 SimpleIoc.Default.Register<IContextProvider, ContextProvider>();
+                SimpleIoc.Default.Register<FortesPonto>();
             }
 
             SimpleIoc.Default.Register<MainViewModel>();

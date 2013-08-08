@@ -126,7 +126,7 @@
         </Grid.RowDefinitions>
         <local:Top />
         <TextBlock Text="importação" Grid.Row="1" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" />
-        <Grid x:Name="LoginGrid" Grid.Row="2">
+        <Grid x:Name="LoginGrid" Grid.Row="2" d:IsHidden="True">
             <StackPanel>
                 <TextBlock Text="RG" Foreground="Black" Margin="12,0,0,0"></TextBlock>
                 <TextBox BorderBrush="#BF000000" Background="Black" Foreground="White" Text="{Binding RG, Mode=TwoWay}" SelectionForeground="Black"></TextBox>
@@ -141,7 +141,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid x:Name="FiltroGrid" Grid.Row="2" Visibility="Collapsed" Opacity="0">
+        <Grid x:Name="FiltroGrid" Grid.Row="2" Visibility="Collapsed" Opacity="0" d:IsHidden="True">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="12,5,0,5">
                     <TextBlock Text="Usuário: " Foreground="Black"/>
@@ -183,7 +183,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid x:Name="ImportandoGrid" Grid.Row="2" Opacity="0" Visibility="Collapsed" Margin="12,0">
+        <Grid x:Name="ImportandoGrid" Grid.Row="2" Margin="12,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
