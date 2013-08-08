@@ -19,7 +19,7 @@
     Loaded="OnLoaded">
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar>
-            <shell:ApplicationBarIconButton x:Name="AppBarIconBtnImportar" IconUri="/Assets/AppBar/appbar.add.rest.png" Text="importar" Click="OnImportar" />
+            <shell:ApplicationBarIconButton x:Name="AppBarIconBtnImportar" IconUri="/Assets/AppBar/appbar.add.rest.png" Text="importar" Click="OnImportar" IsEnabled="False" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
@@ -136,7 +136,7 @@
         </Grid.RowDefinitions>
         <local:Top />
         <TextBlock Text="importação" Grid.Row="1" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" />
-        <Grid x:Name="LoginGrid" Grid.Row="2" d:IsHidden="True" Visibility="Collapsed">
+        <Grid x:Name="LoginGrid" Grid.Row="2">
             <StackPanel>
                 <TextBlock Text="RG" Foreground="Black" Margin="12,0,0,0"></TextBlock>
                 <TextBox BorderBrush="#BF000000" Background="Black" Foreground="White" Text="{Binding RG, Mode=TwoWay}"
@@ -153,7 +153,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid x:Name="FiltroGrid" Grid.Row="2" Visibility="Collapsed" Opacity="0" d:IsHidden="True">
+        <Grid x:Name="FiltroGrid" Grid.Row="2" Visibility="Collapsed" Opacity="0">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="12,5,0,5">
                     <TextBlock Text="Usuário: " Foreground="Black" />
@@ -200,7 +200,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid x:Name="ImportandoGrid" Grid.Row="2" Margin="12,0">
+        <Grid x:Name="ImportandoGrid" Grid.Row="2" Margin="12,0" Visibility="Collapsed" Opacity="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />

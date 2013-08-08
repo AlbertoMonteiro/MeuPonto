@@ -46,24 +46,6 @@ namespace MeuPontoWP7.ViewModel
             Historico = new ObservableCollection<Historico>();
             Historico.CollectionChanged += (sender, args) => RaisePropertyChanged("Batidas");
 
-            for (var i = 0; i < 5; i++)
-            {
-                var historico = new Historico
-                {
-                    Data = DateTime.Today.AddDays((-1) * i),
-                    Diferenca = "a",
-                    Previsto = "b",
-                    Realizado = "c",
-                    Saldo = "s",
-                    Informacoes = new List<Informacao>
-                    {
-                        new Informacao {Descricao = @"Trabalho de 08:00 a 12:00"},
-                        new Informacao {Descricao = @"Trabalho de 13:00 a 18:00"}
-                    }
-                };
-                Historico.Add(historico);
-            }
-
             if (IsInDesignMode)
             {
                 #region Design Data
@@ -76,6 +58,23 @@ namespace MeuPontoWP7.ViewModel
                 var fortes = new Empresa { Codigo = "006", Nome = "Fortes Informática", RazaoSocial = "Fortes Informática" };
                 Empresas.Add(fortes);
                 EmpresaSelecionada = fortes;
+                for (var i = 0; i < 5; i++)
+                {
+                    var historico = new Historico
+                    {
+                        Data = DateTime.Today.AddDays((-1) * i),
+                        Diferenca = "a",
+                        Previsto = "b",
+                        Realizado = "c",
+                        Saldo = "s",
+                        Informacoes = new List<Informacao>
+                        {
+                            new Informacao {Descricao = @"Trabalho de 08:00 a 12:00"},
+                            new Informacao {Descricao = @"Trabalho de 13:00 a 18:00"}
+                        }
+                    };
+                    Historico.Add(historico);
+                }
 
                 #endregion
             }
@@ -188,6 +187,7 @@ namespace MeuPontoWP7.ViewModel
             {
                 totalImportado = value;
                 RaisePropertyChanged("TotalImportado");
+                RaisePropertyChanged("Progresso");
             }
         }
 
@@ -198,6 +198,7 @@ namespace MeuPontoWP7.ViewModel
             {
                 totalParaImportar = value;
                 RaisePropertyChanged("TotalParaImportar");
+                RaisePropertyChanged("Progresso");
             }
         }
 
@@ -233,7 +234,10 @@ namespace MeuPontoWP7.ViewModel
         private void PreencheHistorico(IEnumerable<Historico> historicos)
         {
             ImportarBatidasState = ImportarBatidasState.Importando;
-            foreach (var historico in historicos)
+            var totalDeBatidas = TotalParaImportar = historicos.Count() - 2;
+            var hist = historicos.Skip(1).Take(totalDeBatidas).ToList();
+            TotalParaImportar = hist.ToBatidas().Count();
+            foreach (var historico in hist)
                 Historico.Add(historico);
         }
 
@@ -248,7 +252,11 @@ namespace MeuPontoWP7.ViewModel
 
         public void Importar()
         {
-            repositorio.CacheContext.Batidas.InsertAllOnSubmit(Historico.ToBatidas());
+            foreach (var batida in Historico.ToBatidas())
+            {
+                ++TotalImportado;
+                repositorio.CacheContext.Batidas.InsertOnSubmit(batida);
+            }
             repositorio.CacheContext.SubmitChanges();
         }
     }

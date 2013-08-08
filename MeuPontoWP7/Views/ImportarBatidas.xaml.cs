@@ -2,6 +2,7 @@
 using System.Windows;
 using MeuPontoWP7.ViewModel;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 
 namespace MeuPontoWP7.Views
 {
@@ -17,10 +18,10 @@ namespace MeuPontoWP7.Views
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             importarBatidasViewModel = (ImportarBatidasViewModel) DataContext;
-            AppBarIconBtnImportar.IsEnabled = (importarBatidasViewModel.ImportarBatidasState == ImportarBatidasState.Importando);
             importarBatidasViewModel.PropertyChanged += (o, args) =>
             {
-                AppBarIconBtnImportar.IsEnabled = (importarBatidasViewModel.ImportarBatidasState == ImportarBatidasState.Importando);
+                var button = this.ApplicationBar.Buttons[0] as ApplicationBarIconButton;
+                button.IsEnabled = (importarBatidasViewModel.ImportarBatidasState == ImportarBatidasState.Importando);
             };
         }
 
