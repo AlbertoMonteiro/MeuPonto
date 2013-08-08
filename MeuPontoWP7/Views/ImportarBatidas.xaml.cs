@@ -1,20 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows.Controls;
-using System.Windows.Navigation;
+using System.Windows;
 using MeuPontoWP7.ViewModel;
 using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
 
 namespace MeuPontoWP7.Views
 {
     public partial class ImportarBatidas : PhoneApplicationPage
     {
+        private ImportarBatidasViewModel importarBatidasViewModel;
+
         public ImportarBatidas()
         {
             InitializeComponent();
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            importarBatidasViewModel = (ImportarBatidasViewModel) DataContext;
+            AppBarIconBtnImportar.IsEnabled = (importarBatidasViewModel.ImportarBatidasState == ImportarBatidasState.Importando);
+            importarBatidasViewModel.PropertyChanged += (o, args) =>
+            {
+                AppBarIconBtnImportar.IsEnabled = (importarBatidasViewModel.ImportarBatidasState == ImportarBatidasState.Importando);
+            };
+        }
+
+        private void OnImportar(object sender, EventArgs e)
+        {
+            importarBatidasViewModel.Importar();
         }
     }
 }

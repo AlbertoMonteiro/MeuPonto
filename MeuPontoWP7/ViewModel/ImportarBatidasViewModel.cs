@@ -1,4 +1,7 @@
-using System.Globalization;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MeuPonto.Common.Models;
@@ -6,18 +9,15 @@ using MeuPonto.Common.Repositorios;
 using MeuPontoWP7.Extensions;
 using MeuPontoWP7.Services.Fortes;
 using MeuPontoWP7.Services.Fortes.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace MeuPontoWP7.ViewModel
 {
     public class ImportarBatidasViewModel : ViewModelBase
     {
         #region Fields
-        private readonly IContextProvider repositorio;
+
         private readonly FortesPonto fortesPonto;
+        private readonly IContextProvider repositorio;
         private DateTime dataFinal;
         private DateTime dataInicial;
         private Empresa empresaSelecionada;
@@ -27,7 +27,11 @@ namespace MeuPontoWP7.ViewModel
         private string rg;
         private string saldo;
         private string saldoInicial;
+
         #endregion
+
+        private int totalImportado;
+        private int totalParaImportar;
 
         public ImportarBatidasViewModel(IContextProvider repositorio, FortesPonto fortesPonto)
         {
@@ -42,7 +46,7 @@ namespace MeuPontoWP7.ViewModel
             Historico = new ObservableCollection<Historico>();
             Historico.CollectionChanged += (sender, args) => RaisePropertyChanged("Batidas");
 
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 var historico = new Historico
                 {
@@ -63,6 +67,7 @@ namespace MeuPontoWP7.ViewModel
             if (IsInDesignMode)
             {
                 #region Design Data
+
                 RG = "2007009198057";
                 Nome = "Alberto Monteiro";
                 Saldo = "07:00C";
@@ -76,8 +81,8 @@ namespace MeuPontoWP7.ViewModel
             }
             else
             {
+                OnLogin = new RelayCommand(Login);
                 OnFiltrar = new RelayCommand(Filtrar);
-                OnImportar = new RelayCommand(Importar);
             }
         }
 
@@ -166,23 +171,6 @@ namespace MeuPontoWP7.ViewModel
             }
         }
 
-        public RelayCommand OnFiltrar { get; set; }
-
-        public RelayCommand OnImportar { get; set; }
-
-        public ObservableCollection<Empresa> Empresas { get; set; }
-
-        public ObservableCollection<Historico> Historico { get; set; }
-
-        public IEnumerable<KeyGroup<Batida>> Batidas
-        {
-            get
-            {
-
-                return Historico.ToBatidas().ToKeyGroup(item => item.Horario.Date.ToString("dd/MM/yyyy"));
-            }
-        }
-
         public DateTime Nascimento
         {
             get { return nascimento; }
@@ -193,9 +181,53 @@ namespace MeuPontoWP7.ViewModel
             }
         }
 
-        private void Importar()
+        public int TotalImportado
         {
-            fortesPonto.Batidas(RG,EmpresaSelecionada.Codigo, DataInicial,DataFinal,PreencheHistorico);
+            get { return totalImportado; }
+            set
+            {
+                totalImportado = value;
+                RaisePropertyChanged("TotalImportado");
+            }
+        }
+
+        public int TotalParaImportar
+        {
+            get { return totalParaImportar; }
+            set
+            {
+                totalParaImportar = value;
+                RaisePropertyChanged("TotalParaImportar");
+            }
+        }
+
+        public string Progresso { get { return string.Format("{0} / {1}", TotalImportado, TotalParaImportar); } }
+
+        public RelayCommand OnLogin { get; set; }
+
+        public RelayCommand OnFiltrar { get; set; }
+
+        public ObservableCollection<Empresa> Empresas { get; set; }
+
+        public ObservableCollection<Historico> Historico { get; set; }
+
+        public IEnumerable<KeyGroup<Batida>> Batidas
+        {
+            get { return Historico.ToBatidas().ToKeyGroup(item => item.Horario.Date.ToString("dd/MM/yyyy")); }
+        }
+
+        private void Filtrar()
+        {
+            fortesPonto.Batidas(RG, EmpresaSelecionada.Codigo, DataInicial, DataFinal, PreencheHistorico);
+        }
+
+        private void Login()
+        {
+            fortesPonto.Login(RG, Nascimento, value =>
+            {
+                if (value.Value)
+                    fortesPonto.Empresas(RG, PreencheEmpresas);
+            });
         }
 
         private void PreencheHistorico(IEnumerable<Historico> historicos)
@@ -205,15 +237,6 @@ namespace MeuPontoWP7.ViewModel
                 Historico.Add(historico);
         }
 
-        private void Filtrar()
-        {
-            fortesPonto.Login(RG, Nascimento, value =>
-            {
-                if (value.Value)
-                    fortesPonto.Empresas(RG, PreencheEmpresas);
-            });
-        }
-
         private void PreencheEmpresas(IEnumerable<Empresa> empresas)
         {
             foreach (var empresa in empresas)
@@ -221,6 +244,12 @@ namespace MeuPontoWP7.ViewModel
 
             EmpresaSelecionada = empresas.FirstOrDefault();
             ImportarBatidasState = ImportarBatidasState.Filtrando;
+        }
+
+        public void Importar()
+        {
+            repositorio.CacheContext.Batidas.InsertAllOnSubmit(Historico.ToBatidas());
+            repositorio.CacheContext.SubmitChanges();
         }
     }
 }

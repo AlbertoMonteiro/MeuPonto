@@ -15,10 +15,11 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    DataContext="{Binding ImportarBatidas, Source={StaticResource Locator}}">
+    DataContext="{Binding ImportarBatidas, Source={StaticResource Locator}}"
+    Loaded="OnLoaded">
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar>
-            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.add.rest.png" Text="importar" />
+            <shell:ApplicationBarIconButton x:Name="AppBarIconBtnImportar" IconUri="/Assets/AppBar/appbar.add.rest.png" Text="importar" Click="OnImportar" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
@@ -146,7 +147,7 @@
                 <Button Content="Logar" BorderBrush="Black" Foreground="Black">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <command:EventToCommand Command="{Binding OnFiltrar}" />
+                            <command:EventToCommand Command="{Binding OnLogin}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -193,7 +194,7 @@
                 <Button Content="Importar" BorderBrush="Black" Foreground="#FC000000">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <command:EventToCommand Command="{Binding OnImportar}" />
+                            <command:EventToCommand Command="{Binding OnFiltrar}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -205,24 +206,32 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Nome: " Foreground="Black" />
-                    <TextBlock Text="{Binding Nome}" Foreground="Black" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="RG: " Foreground="Black" />
-                    <TextBlock Text="{Binding RG}" Foreground="Black" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Périodo: " Foreground="Black" />
-                    <TextBlock Text="{Binding Periodo}" Foreground="Black" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Saldo: " Foreground="Black" />
-                    <TextBlock Text="{Binding Saldo}" Foreground="Black" />
-                </StackPanel>
-            </StackPanel>
+            <Grid>
+            	<Grid.ColumnDefinitions>
+            		<ColumnDefinition Width="Auto"/>
+            		<ColumnDefinition/>
+            	</Grid.ColumnDefinitions>
+            	<Grid.RowDefinitions>
+            		<RowDefinition Height="Auto"/>
+            		<RowDefinition Height="Auto"/>
+            		<RowDefinition Height="Auto"/>
+            	</Grid.RowDefinitions>
+        		<Border Padding="5" Background="Gainsboro" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,5,0">
+        			<TextBlock Text="{Binding Nome, StringFormat=Nome: \{0\}}" Foreground="Black" FontWeight="Bold" />
+        		</Border>
+        		<Border Background="Gainsboro" Padding="5" Grid.Column="1" Margin="0,5,5,0">
+        			<TextBlock Text="{Binding RG, StringFormat=RG: \{0\}}" Foreground="Black" FontWeight="Bold" />
+        		</Border>
+        		<Border Background="Gainsboro" Padding="5" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,5,5,0">
+        			<TextBlock Text="{Binding Periodo, Mode=OneWay, StringFormat=Período: \{0\}}" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" />
+        		</Border>
+        		<Border Padding="5" Background="Gainsboro" Grid.Row="2" Margin="0,5,5,0">
+        			<TextBlock Text="{Binding Saldo, StringFormat=Saldo : \{0\}}" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" />
+        		</Border>
+        		<Border Padding="5" Background="Gainsboro" Grid.Column="1" Grid.Row="2" Margin="0,5,5,0">
+        			<TextBlock Text="{Binding SaldoInicial, StringFormat=Saldo inicial: \{0\}}" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" />
+        		</Border>
+        	</Grid>
             <phone:LongListSelector Grid.Row="1" 
                                     Grid.ColumnSpan="2"
                                     JumpListStyle="{StaticResource LongListSelectorStyle1}"
@@ -231,9 +240,9 @@
                                     ItemsSource="{Binding Batidas, Mode=OneWay}"
                                     IsGroupingEnabled="True" 
                                     HideEmptyGroups="True" GroupHeaderTemplate="{StaticResource LongListHeaderTemplatesOfBatidas}"/>
-            <StackPanel Orientation="Horizontal" Grid.Row="2">
-                <TextBlock Text="Saldo inicial: " Foreground="Black" />
-                <TextBlock Text="{Binding SaldoInicial}" Foreground="Black" />
+            <StackPanel Grid.Row="2">
+                <ProgressBar Value="{Binding TotalImportado}" Foreground="{StaticResource PhoneAccentBrush}" Margin="0,10,0,0" Maximum="{Binding TotalParaImportar}"/>
+                <TextBlock Foreground="Black" Text="{Binding Progresso}" Margin="10,0,0,0" FontSize="16" FontWeight="Bold" />
             </StackPanel>
         </Grid>
     </Grid>
