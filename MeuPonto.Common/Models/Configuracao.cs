@@ -7,19 +7,20 @@ namespace MeuPonto.Common.Models
     [Table]
     public class Configuracao : INotifyPropertyChanged
     {
-        private TimeSpan _turnoMaximo;
-        private int _minutosDeDiferenca;
-        private TimeSpan _quantidadeDeHorasDeAlmoco;
-        private TimeSpan _horarioDeTrabalhoDiario;
-        private int _id;
+        private TimeSpan horarioDeTrabalhoDiario;
+        private TimeSpan horarioDeTrabalhoDiarioMaximo;
+        private int id;
+        private int minutosDeDiferenca;
+        private TimeSpan quantidadeDeHorasDeAlmoco;
+        private TimeSpan turnoMaximo;
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
         public int Id
         {
-            get { return _id; }
+            get { return id; }
             set
             {
-                _id = value;
+                id = value;
                 OnPropertyChanged("Id");
             }
         }
@@ -27,21 +28,32 @@ namespace MeuPonto.Common.Models
         [Column(DbType = "NVARCHAR(10)")]
         public TimeSpan HorarioDeTrabalhoDiario
         {
-            get { return _horarioDeTrabalhoDiario; }
+            get { return horarioDeTrabalhoDiario; }
             set
             {
-                _horarioDeTrabalhoDiario = value;
+                horarioDeTrabalhoDiario = value;
                 OnPropertyChanged("HorarioDeTrabalhoDiario");
+            }
+        }
+
+        [Column(DbType = "NVARCHAR(10)")]
+        public TimeSpan HorarioDeTrabalhoDiarioMaximo
+        {
+            get { return horarioDeTrabalhoDiarioMaximo; }
+            set
+            {
+                horarioDeTrabalhoDiarioMaximo = value;
+                OnPropertyChanged("HorarioDeTrabalhoDiarioMaximo");
             }
         }
 
         [Column(DbType = "NVARCHAR(10)")]
         public TimeSpan QuantidadeDeHorasDeAlmoco
         {
-            get { return _quantidadeDeHorasDeAlmoco; }
+            get { return quantidadeDeHorasDeAlmoco; }
             set
             {
-                _quantidadeDeHorasDeAlmoco = value;
+                quantidadeDeHorasDeAlmoco = value;
                 OnPropertyChanged("QuantidadeDeHorasDeAlmoco");
             }
         }
@@ -49,10 +61,10 @@ namespace MeuPonto.Common.Models
         [Column]
         public int MinutosDeDiferenca
         {
-            get { return _minutosDeDiferenca; }
+            get { return minutosDeDiferenca; }
             set
             {
-                _minutosDeDiferenca = value;
+                minutosDeDiferenca = value;
                 OnPropertyChanged("MinutosDeDiferenca");
             }
         }
@@ -60,10 +72,10 @@ namespace MeuPonto.Common.Models
         [Column(DbType = "NVARCHAR(10)")]
         public TimeSpan TurnoMaximo
         {
-            get { return _turnoMaximo; }
+            get { return turnoMaximo; }
             set
             {
-                _turnoMaximo = value;
+                turnoMaximo = value;
                 OnPropertyChanged("TurnoMaximo");
             }
         }

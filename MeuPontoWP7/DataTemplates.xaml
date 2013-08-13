@@ -3,7 +3,86 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
 	<!-- Resource dictionary entries should be defined here. -->
     <DataTemplate x:Key="BatidasTemplate">
-		<Border BorderThickness="1" Padding="2" Margin="1" BorderBrush="Black" Width="{Binding Width, ElementName=LblBatidas}">
+		<Border x:Name="Border"  BorderThickness="1" Padding="2" Margin="1" BorderBrush="Black" Width="{Binding Width, ElementName=LblBatidas}" RenderTransformOrigin="0.5,0.5"  d:DesignWidth="480" d:DesignHeight="50">
+            <Border.Resources>
+                <EventTrigger x:Name="Trigger" RoutedEvent="Border.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Border" d:IsOptimized="True">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseInOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="Border">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="250">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CubicEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CubicEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="Border">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="-0.2">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CubicEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CubicEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="Border">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0.2">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CubicEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CubicEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Border">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0.1">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" Storyboard.TargetName="Border">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="30"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationY)" Storyboard.TargetName="Border">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="30"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationZ)" Storyboard.TargetName="Border">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="30"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Resources>
+			<Border.Projection>
+				<PlaneProjection/>
+			</Border.Projection>
+			<Border.RenderTransform>
+				<CompositeTransform/>
+			</Border.RenderTransform>
             <Grid>
 		    	<Grid.ColumnDefinitions>
 		    		<ColumnDefinition Width="Auto"/>

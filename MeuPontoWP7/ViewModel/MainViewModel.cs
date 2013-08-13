@@ -14,13 +14,12 @@ namespace MeuPontoWP7.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly CacheContext _context;
-        private DateTime? _horario;
-        private double _width;
+        private readonly CacheContext context;
+        private DateTime? horario;
 
         public MainViewModel(IContextProvider repositorio)
         {
-            _context = repositorio.CacheContext;
+            context = repositorio.CacheContext;
             Batidas = new ObservableCollection<Batida>();
 
             if (IsInDesignMode)
@@ -35,7 +34,7 @@ namespace MeuPontoWP7.ViewModel
             {
                 // Code runs "for real"
 
-                _context.Batidas
+                context.Batidas
                     .Where(x => x.Horario.Date == DateTime.Now.Date)
                     .ToList()
                     .ForEach(Batidas.Add);
@@ -59,10 +58,10 @@ namespace MeuPontoWP7.ViewModel
 
         public DateTime? Horario
         {
-            get { return _horario; }
+            get { return horario; }
             set
             {
-                _horario = value;
+                horario = value;
                 RaisePropertyChanged("Horario");
             }
         }
@@ -117,8 +116,8 @@ namespace MeuPontoWP7.ViewModel
             if (batida != null)
             {
                 Batidas.Remove(batida);
-                _context.Batidas.DeleteOnSubmit(batida);
-                _context.SubmitChanges();
+                context.Batidas.DeleteOnSubmit(batida);
+                context.SubmitChanges();
             }
         }
 
@@ -134,8 +133,8 @@ namespace MeuPontoWP7.ViewModel
             };
             Batidas.Add(batida);
 
-            _context.Batidas.InsertOnSubmit(batida);
-            _context.SubmitChanges();
+            context.Batidas.InsertOnSubmit(batida);
+            context.SubmitChanges();
 
             if (AtualizaHorasTrabalhadas)
                 RaiseChangedHorarioTrabalhado();
@@ -143,14 +142,14 @@ namespace MeuPontoWP7.ViewModel
 
         private void CarregaConfiguracao()
         {
-            Configuracao = _context.Configuracoes.FirstOrDefault() ?? new Configuracao();
+            Configuracao = context.Configuracoes.FirstOrDefault() ?? new Configuracao();
             if (Configuracao.Id == 0)
             {
-                _context.Configuracoes.InsertOnSubmit(Configuracao);
-                _context.SubmitChanges();
+                context.Configuracoes.InsertOnSubmit(Configuracao);
+                context.SubmitChanges();
             }
 
-            Configuracao.PropertyChanged += (sender, args) => _context.SubmitChanges();
+            Configuracao.PropertyChanged += (sender, args) => context.SubmitChanges();
         }
     }
 }

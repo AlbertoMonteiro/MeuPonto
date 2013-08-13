@@ -255,7 +255,8 @@ namespace MeuPontoWP7.ViewModel
             foreach (var batida in Historico.ToBatidas())
             {
                 ++TotalImportado;
-                repositorio.CacheContext.Batidas.InsertOnSubmit(batida);
+                if (!repositorio.CacheContext.Batidas.Any(x => x.Horario == batida.Horario))
+                    repositorio.CacheContext.Batidas.InsertOnSubmit(batida);
             }
             repositorio.CacheContext.SubmitChanges();
         }
